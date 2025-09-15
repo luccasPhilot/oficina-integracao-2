@@ -12,6 +12,12 @@ Este projeto consiste no desenvolvimento de um módulo web para o controle e ger
 
 O projeto de extensão ELLP oferece oficinas de informática, lógica e programação para crianças e adolescentes de escolas públicas. Atualmente, a gestão das escolas parceiras é realizada de forma manual, o que dificulta o controle e a organização das informações. Este sistema foi proposto para sanar essa necessidade, oferecendo uma ferramenta dedicada para a gestão.
 
+### Documentação
+
+Toda a documentação do projeto, incluindo o Documento de Projeto de Software, artefatos de planejamento e outros materiais relevantes, pode ser encontrada em nossa pasta compartilhada no Google Drive.
+
+* **[Acessar a Documentação do Projeto](https://drive.google.com/drive/folders/1OxzsOKuGwnTV3OsWc29DWiYwlBMwnyCQ?usp=sharing)**
+
 ## Objetivos do Sistema
 
 O objetivo geral é desenvolver uma aplicação web para otimizar e centralizar o gerenciamento de escolas, turmas e alunos participantes do projeto.
