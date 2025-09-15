@@ -16,7 +16,7 @@ O projeto de extensão ELLP oferece oficinas de informática, lógica e programa
 
 Toda a documentação do projeto, incluindo o Documento de Projeto de Software, artefatos de planejamento e outros materiais relevantes, pode ser encontrada em nossa pasta compartilhada no Google Drive.
 
-* **[Acessar a Documentação do Projeto](https://drive.google.com/drive/folders/1OxzsOKuGwnTV3OsWc29DWiYwlBMwnyCQ?usp=sharing)**
+**[Acessar a Documentação do Projeto](https://drive.google.com/drive/folders/1OxzsOKuGwnTV3OsWc29DWiYwlBMwnyCQ?usp=sharing)**
 
 ## Objetivos do Sistema
 
