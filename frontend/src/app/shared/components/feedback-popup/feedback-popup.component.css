@@ -1,0 +1,21 @@
+.feedback-popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1em;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.feedback-success {
+  background-color: #4caf50;
+}
+
+.feedback-error {
+  background-color: #f44336;
+}

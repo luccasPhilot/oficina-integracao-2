@@ -1,0 +1,66 @@
+:host {
+  display: block;
+  padding: 20px 24px;
+}
+
+h2,
+p,
+hr {
+  margin: 0;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+}
+.dialog-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.close-button {
+  color: #888;
+}
+
+.separator {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 5px 0;
+}
+
+.dialog-content p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+mat-dialog-actions {
+  margin-top: 24px;
+  padding: 0;
+  gap: 12px;
+}
+mat-dialog-actions button {
+  border-radius: 6px;
+  font-weight: 500;
+  min-width: 80px;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-button {
+  background-color: #ffffff;
+  color: #555;
+  border: 1px solid #ccc;
+}
+.cancel-button:hover {
+  background-color: #cdcdcd;
+}
+
+.confirm-button {
+  color: #ffffff;
+  border: 1px solid #2e3e50;
+}
+.confirm-button:hover {
+  background-color: #8ec6e6;
+}
