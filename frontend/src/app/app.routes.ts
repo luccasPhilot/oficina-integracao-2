@@ -11,6 +11,41 @@ export const routes: Routes = [
       ),
     canActivate: [LoginRedirectGuard]
   },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
+  },
+  {
+    path: 'school-list',
+    loadComponent: () =>
+      import('./school/school-list.component').then(
+        (m) => m.SchoolListComponent
+      ),
+  },
+  {
+    path: 'representative-list',
+    loadComponent: () =>
+      import('./representative/representative-list.component').then(
+        (m) => m.RepresentativeListComponent
+      ),
+  },
+  {
+    path: 'class-list',
+    loadComponent: () =>
+      import('./class/class-list.component').then(
+        (m) => m.ClassListComponent
+      ),
+  },
+  {
+    path: 'student-list',
+    loadComponent: () =>
+      import('./student/student-list.component').then(
+        (m) => m.StudentListComponent
+      ),
+  },
   { path: 'login', redirectTo: '' },
   { path: '**', redirectTo: '' },
 ];

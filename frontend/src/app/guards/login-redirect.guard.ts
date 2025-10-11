@@ -15,7 +15,7 @@ export class LoginRedirectGuard implements CanActivate {
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         if (await this.authService.isAuthenticated()) {
-            this.router.navigate(['/adm-news']);
+            this.router.navigate(['/dashboard']);
             return false;
         }
 

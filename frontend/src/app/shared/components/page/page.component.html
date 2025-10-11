@@ -5,28 +5,49 @@
 
 <div class="page-container">
   <div class="navbar">
-    <div
-      class="logo-container">
-      <div class="logo-circle">
-        <img src="tedi-logo.png" alt="TEDI Logo" style="width: 75%" />
-      </div>
-      <span style="font-weight: 500">Administrador</span>
+    <div class="logo">
+      <div class="logo-bar"></div>
+      <span>ILLP</span>
     </div>
-    <div class="items-container">
-      <span (click)="navigateTo('/adm-news')">Notícias</span>
-      <span (click)="navigateTo('/adm-monitors')">Monitores</span>
-      <span (click)="navigateTo('/adm-team')">Equipe</span>
+  <div class="items-container">
+    <div 
+      class="nav-item" 
+      [class.active]="currentRoute === '/dashboard'" 
+      (click)="navigateTo('/dashboard')"
+    >
+    <mat-icon>home</mat-icon>
+      <span>Início</span>
     </div>
+
+    <div class="nav-item" [class.active]="currentRoute === '/school-list'" (click)="navigateTo('/school-list')">
+      <mat-icon>school</mat-icon>
+      <span>Escolas</span>
+    </div>
+
+    <div class="nav-item" [class.active]="currentRoute === '/representative-list'" (click)="navigateTo('/representative-list')">
+      <mat-icon>groups</mat-icon>
+      <span>Representantes</span>
+    </div>
+
+    <div class="nav-item" [class.active]="currentRoute === '/class-list'" (click)="navigateTo('/class-list')">
+      <mat-icon>class</mat-icon>
+      <span>Turmas</span>
+    </div>
+
+    <div class="nav-item" [class.active]="currentRoute === '/student-list'" (click)="navigateTo('/student-list')">
+      <mat-icon>person</mat-icon>
+      <span>Alunos</span>
+    </div>
+  </div>
     <div class="bottom-container">
       <div class="logout" (click)="logout()">
-        <mat-icon style="margin-right: 15px">logout</mat-icon>
-        <span>Sair</span>
+        <span>Logout</span>
+        <mat-icon>logout</mat-icon>
       </div>
-      <img src="utf-white-logo.png" alt="UTFPR Logo" style="width: 100%"/>
     </div>
   </div>
   <div class="container" [ngStyle]="{ 'padding': hasLateralScroll ? '20px 0px 0px 20px' : '20px 20px 0px'}">
-    @if (title || showAddButton) {
+    @if (title || showSearchBar || showAddButton) {
       <div class="page-header-container">
         <h1 class="page-title">{{ title }}</h1>
         <div class="header-actions" [ngStyle]="{ 'padding-right': hasLateralScroll ? '20px' : '' }">
@@ -35,9 +56,12 @@
               <mat-icon>filter_alt</mat-icon>
             </button>
           }
+          @if (showSearchBar) {
+            <search-bar [(dataSource)]="dataSource" [searchQuery]="searchQuery"> </search-bar>
+          }
           @if (showAddButton) {
-            <button mat-fab class="add-button custom-button" aria-label="Adicionar monitor" [matTooltip]="'Adicionar'" (click)="addButtonClicked.emit()">
-              <mat-icon fontSet="material-icons-round">add</mat-icon>
+            <button matButton="filled" class="add-button custom-button" (click)="addButtonClicked.emit()">
+              <span>ADICIONAR {{ objectName }}</span>
             </button>
           }
         </div>

@@ -1,0 +1,4 @@
+<mat-form-field appearance="outline" class="search-field">
+    <input matInput [(ngModel)]="searchQuery" (ngModelChange)="applySearch()" [placeholder]="placeholder">
+    <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>

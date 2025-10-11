@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 import { FeedbackPopupComponent } from '../feedback-popup/feedback-popup.component';
 import { INews } from '../../interfaces/news.interface';
 import { AuthService } from '../../../guards/auth.service';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'page',
@@ -26,6 +27,7 @@ import { AuthService } from '../../../guards/auth.service';
     FeedbackPopupComponent,
     MatFormFieldModule,
     MatInputModule,
+    SearchBarComponent,
     MatTooltipModule
   ],
   templateUrl: './page.component.html',
@@ -33,19 +35,26 @@ import { AuthService } from '../../../guards/auth.service';
 })
 export class PageComponent {
   @Input() title: string = '';
+  @Input() objectName: string = ''
   @Input() hasLateralScroll: boolean = false;
   @Input() showFilterButton: boolean = false;
   @Input() showAddButton: boolean = false;
+  @Input() showSearchBar: boolean = false;
   @Input() dataSource: any = null;
   @Output() filterButtonClicked = new EventEmitter<void>();
   @Output() addButtonClicked = new EventEmitter<void>();
   @Output() dataSourceChange = new EventEmitter<INews[]>();
 
+  searchQuery!: string;
   feedbackMessage: string = '';
   feedbackType: 'success' | 'error' | '' = '';
 
   constructor(private readonly router: Router, private readonly http: HttpClient, private readonly authService: AuthService) { }
 
+  get currentRoute() {
+    return this.router.url;
+  }
+  
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }

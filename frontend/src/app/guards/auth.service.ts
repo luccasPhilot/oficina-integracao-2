@@ -31,7 +31,7 @@ export class AuthService {
         .subscribe({
           next: () => {
             resolve({ message: 'Login realizado com sucesso!', type: 'success' });
-            this.router.navigate(['/adm-news']);
+            this.router.navigate(['/dashboard']);
           },
           error: (err) => {
             const errorMessage =
