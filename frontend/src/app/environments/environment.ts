@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://tedibackend-production.up.railway.app',
+  apiUrl: 'http://localhost:3333',
+  token: ''
 };

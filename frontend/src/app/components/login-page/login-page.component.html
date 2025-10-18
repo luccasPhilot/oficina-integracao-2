@@ -1,0 +1,41 @@
+<app-feedback-popup
+  [message]="feedbackMessage"
+  [type]="feedbackType"
+></app-feedback-popup>
+
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="logo">
+      <span class="logo-bar"></span> ELLP
+    </h1>
+
+    <h2 class="title">SIGN IN</h2>
+    <p class="subtitle">Digite suas credenciais para acessar sua conta</p>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
+      <div class="form-group">
+        <label for="usuario">Email</label>
+        <input
+          id="usuario"
+          formControlName="id"
+          type="email"
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Password</label>
+        <input
+          id="senha"
+          formControlName="password"
+          type="password"
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">
+        SIGN IN
+      </button>
+    </form>
+  </div>
+</div>

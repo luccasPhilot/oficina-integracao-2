@@ -6,43 +6,43 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./login-page/login-page.component').then(
+      import('./components/login-page/login-page.component').then(
         (m) => m.LoginPageComponent
       ),
-    canActivate: [LoginRedirectGuard]
+    canActivate: [LoginRedirectGuard],
   },
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./dashboard/dashboard.component').then(
+      import('./components/dashboard/dashboard.component').then(
         (m) => m.DashboardComponent
       ),
   },
   {
     path: 'school-list',
     loadComponent: () =>
-      import('./school/school-list.component').then(
+      import('./components/school/school-list.component').then(
         (m) => m.SchoolListComponent
       ),
   },
   {
     path: 'representative-list',
     loadComponent: () =>
-      import('./representative/representative-list.component').then(
+      import('./components/representative/representative-list.component').then(
         (m) => m.RepresentativeListComponent
       ),
   },
   {
     path: 'class-list',
     loadComponent: () =>
-      import('./class/class-list.component').then(
+      import('./components/class/class-list.component').then(
         (m) => m.ClassListComponent
       ),
   },
   {
     path: 'student-list',
     loadComponent: () =>
-      import('./student/student-list.component').then(
+      import('./components/student/student-list.component').then(
         (m) => m.StudentListComponent
       ),
   },
