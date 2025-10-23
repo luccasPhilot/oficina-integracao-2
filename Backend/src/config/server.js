@@ -5,6 +5,7 @@ import { getSecretOrEnv } from "../utils/Enviroments.js";
 
 import healthRoutes from "../routes/healthRoutes.js";
 import authRoutes from "../routes/Auth.routes.js";
+import escolaRoutes from "../routes/Escola.routes.js";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(
 
 app.use("/api", healthRoutes);
 app.use("/auth", authRoutes);
+app.use("/escola", escolaRoutes);
 
 export default app;

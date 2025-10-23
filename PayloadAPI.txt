@@ -1,0 +1,9 @@
+Criacao de escola
+{
+    "nome": "Escola do Ricardo",
+    "endereco": "Rua das Flores, 1231",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "telefone": "(11) 99999-9999",
+    "email": "contato@escolaabc.com.br"
+}
