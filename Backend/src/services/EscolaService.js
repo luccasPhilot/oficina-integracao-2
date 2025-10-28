@@ -1,4 +1,5 @@
 import EscolaRepository from '../repositories/EscolaRepository.js';
+import TurmaRepository from '../repositories/TurmaRepository.js';
 
 const EscolaService = {
     createEscola: async (data) => {
@@ -15,6 +16,10 @@ const EscolaService = {
 
     getAllEscolas: async (search) => {
         return await EscolaRepository.findAll(search);
+    },
+
+    getAllTurmasByEscolaId: async (id) => {
+        return await TurmaRepository.findAll(id);
     },
 
     updateEscola: async (id, data) => {

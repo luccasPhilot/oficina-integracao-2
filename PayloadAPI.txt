@@ -9,3 +9,14 @@ http://localhost:3000/escola
     "telefone": "(11) 99999-9999",
     "email": "contato@escolaabc.com.br"
 }
+
+Criacao de turma
+Post
+http://localhost:3000/turma
+{
+  "identificacao": "3º Ano B - Manhã",
+  "escola_id": ".........."
+}
+
+Busca de turmas por escola
+http://localhost:3000/escola/:id/turmas

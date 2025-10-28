@@ -2,10 +2,12 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { getSecretOrEnv } from "../utils/Enviroments.js";
+import '../models/index.js';
 
 import healthRoutes from "../routes/healthRoutes.js";
 import authRoutes from "../routes/Auth.routes.js";
 import escolaRoutes from "../routes/Escola.routes.js";
+import turmaRoutes from "../routes/Turma.routes.js";
 
 const app = express();
 
@@ -23,5 +25,6 @@ app.use(
 app.use("/api", healthRoutes);
 app.use("/auth", authRoutes);
 app.use("/escola", escolaRoutes);
+app.use("/turma", turmaRoutes);
 
 export default app;

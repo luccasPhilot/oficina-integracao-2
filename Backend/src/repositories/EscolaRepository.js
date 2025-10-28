@@ -6,7 +6,6 @@ const EscolaRepository = {
     create: async (data) => {
         const id = generateRandomId();
         const newData = { ...data, id };
-        console.log(newData)
         return await Escola.create(newData);
     },
 
