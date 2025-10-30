@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 // Services
@@ -18,10 +18,8 @@ export class ApiService {
   // API Auth token
   private readonly TOKEN: string = environment.token;
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly storageService: StorageService
-  ) { }
+  private readonly http = inject(HttpClient);
+  private readonly storageService = inject(StorageService);
 
   /**
    * GET method API call

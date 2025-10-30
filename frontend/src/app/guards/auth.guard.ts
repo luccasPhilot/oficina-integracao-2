@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
-  ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot
 } from '@angular/router';
 import { AuthService } from '../service/auth/auth.service';
 import { firstValueFrom } from 'rxjs';
@@ -12,14 +10,10 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router
-  ) { }
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
   ): Promise<boolean> {
     try {
       const isAuthenticated = await firstValueFrom(

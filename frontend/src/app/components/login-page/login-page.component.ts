@@ -12,7 +12,7 @@ import { AuthService } from '../../service/auth/auth.service';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'login-page',
+  selector: 'app-login-page',
   standalone: true,
   imports: [
     CommonModule,

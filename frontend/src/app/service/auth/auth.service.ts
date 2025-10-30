@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   public ENDPOINTS: EndpointsAuth = ENDPOINTS
-  public URL: string = `${environment.apiUrl}/`
+  public URL = `${environment.apiUrl}/`
 
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);

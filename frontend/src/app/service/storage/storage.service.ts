@@ -13,8 +13,6 @@ export class StorageService {
     token: 'access_token',
   }
 
-  constructor() { }
-
   // Get Access Token
   public getToken(): string | null {
     return sessionStorage.getItem(this.sessionData.token);
