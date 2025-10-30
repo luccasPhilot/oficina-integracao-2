@@ -4,7 +4,7 @@
 import 'dotenv/config';
 import bcrypt from "bcryptjs";
 import { Admin } from "./src/models/Admin.js";
-import { sequelize } from "./src/config/db.js";
+import sequelize from "./src/config/db.js";
 
 (async () => {
     try {

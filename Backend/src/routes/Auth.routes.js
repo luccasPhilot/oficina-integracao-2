@@ -6,7 +6,6 @@ const router = Router();
 router.use(cookieParser());
 
 router.post("/login", login);
-router.post("/login", login);
 router.post("/logout", logout);
 router.get("/validate", validateToken);
 

@@ -4,12 +4,12 @@ const TOKEN_EXPIRATION = parseInt(process.env.TOKEN_EXPIRATION);
 
 export const login = async (req, res) => {
   try {
-    const { usuario, senha } = req.body;
+    const { user, password } = req.body;
 
-    if (!usuario || !senha)
-      return res.status(400).json({ message: "usuario e senha são obrigatórios." });
+    if (!user || !password)
+      return res.status(400).json({ message: "'user' e 'password' são obrigatórios." });
 
-    const token = await authenticate(usuario, senha);
+    const token = await authenticate(user, password);
 
     res.cookie("token", token, {
       httpOnly: true,
