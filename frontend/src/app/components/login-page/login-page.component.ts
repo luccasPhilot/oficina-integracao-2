@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
+  NonNullableFormBuilder
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/feedback-popup.component';
-import { AuthService } from '../../guards/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'login-page',
@@ -23,32 +22,57 @@ import { AuthService } from '../../guards/auth.service';
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPageComponent {
-  loginForm: FormGroup;
-  feedbackMessage: string = '';
-  feedbackType: 'success' | 'error' | '' = '';
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly http: HttpClient,
-    private readonly router: Router,
-    private readonly authService: AuthService
-  ) {
-    this.loginForm = this.fb.group({
-      id: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-  }
+  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+
+  feedbackMessage = signal<string>('');
+  feedbackType = signal<'success' | 'error' | ''>('');
+  isLoading = signal<boolean>(false);
+
+  loginForm = this.fb.group({
+    id: ['', [Validators.required, Validators.maxLength(30)]],
+    password: ['', Validators.required],
+  });
 
   onSubmit() {
-    this.authService.login(this.loginForm.value).then((res) => {
-      this.mostrarFeedback(res.message, res.type);
-    });
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.feedbackMessage.set('');
+    this.feedbackType.set('');
+
+    this.authService.login({
+      user: this.loginForm.get('id')?.value || '',
+      password: this.loginForm.get('password')?.value || '',
+    })
+      .pipe(
+        finalize(() => this.isLoading.set(false))
+      )
+      .subscribe({
+        next: (res) => {
+          const message = res.message || 'Login bem-sucedido!';
+          const type = res.type || 'success';
+          this.mostrarFeedback(message, type);
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          console.error('Falha no login', err);
+          const message = err.error?.message || 'Erro ao tentar login. Tente novamente.';
+          this.mostrarFeedback(message, 'error');
+        }
+      });
   }
 
   private mostrarFeedback(message: string, type: 'success' | 'error'): void {
-    this.feedbackMessage = message;
-    this.feedbackType = type;
+    this.feedbackMessage.set(message);
+    this.feedbackType.set(type);
   }
 }

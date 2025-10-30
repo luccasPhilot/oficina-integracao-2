@@ -1,7 +1,7 @@
-<app-feedback-popup
-  [message]="feedbackMessage"
-  [type]="feedbackType"
-></app-feedback-popup>
+<!-- Novo Control Flow @if para renderização condicional -->
+@if (feedbackMessage()) {
+<app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+}
 
 <div class="login-container">
   <div class="login-card">
@@ -14,27 +14,45 @@
 
     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
       <div class="form-group">
-        <label for="usuario">Email</label>
-        <input
-          id="usuario"
-          formControlName="id"
-          type="email"
-          placeholder="Enter your email"
-        />
+
+        <label for="usuario">Usuário</label>
+        <input id="usuario" formControlName="id" type="text" placeholder="Digite seu nome de usuário"
+          [class.invalid]="loginForm.controls.id.invalid && loginForm.controls.id.touched" />
+
+        @if (loginForm.controls.id.invalid && (loginForm.controls.id.dirty || loginForm.controls.id.touched)) {
+        <div class="validation-error">
+          @if (loginForm.controls.id.hasError('required')) {
+          <span>Usuário é obrigatório.</span>
+          }
+          @if (loginForm.controls.id.hasError('maxlength')) {
+          <span>Usuário não pode ter mais que 30 caracteres.</span>
+          }
+        </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="senha">Password</label>
-        <input
-          id="senha"
-          formControlName="password"
-          type="password"
-          placeholder="Enter your password"
-        />
+        <input id="senha" formControlName="password" type="password" placeholder="Enter your password"
+          [class.invalid]="loginForm.controls.password.invalid && loginForm.controls.password.touched" />
+        <!-- Mensagens de validação com @if -->
+        @if (loginForm.controls.password.invalid && (loginForm.controls.password.dirty ||
+        loginForm.controls.password.touched)) {
+        <div class="validation-error">
+          @if (loginForm.controls.password.hasError('required')) {
+          <span>Senha é obrigatória.</span>
+          }
+        </div>
+        }
       </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">
-        SIGN IN
+      <!-- Botão desabilitado com base no form e no isLoading() -->
+      <button type="submit" [disabled]="loginForm.invalid || isLoading()">
+        @if (isLoading()) {
+        <span>Signing in...</span>
+        } @else {
+        <span>SIGN IN</span>
+        }
       </button>
     </form>
   </div>

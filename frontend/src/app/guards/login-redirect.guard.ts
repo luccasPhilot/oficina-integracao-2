@@ -3,22 +3,37 @@ import {
     ActivatedRouteSnapshot,
     CanActivate,
     Router,
-    RouterStateSnapshot,
+    RouterStateSnapshot
 } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '../service/auth/auth.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class LoginRedirectGuard implements CanActivate {
-    constructor(private readonly authService: AuthService, private readonly router: Router) { }
 
-    async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        if (await this.authService.isAuthenticated()) {
-            this.router.navigate(['/dashboard']);
-            return false;
+    constructor(
+        private readonly authService: AuthService,
+        private readonly router: Router
+    ) { }
+
+    async canActivate(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Promise<boolean> {
+        try {
+            const isAuthenticated = await firstValueFrom(
+                this.authService.isAuthenticated()
+            );
+
+            if (isAuthenticated) {
+                this.router.navigate(['/dashboard']);
+                return false;
+            }
+            return true;
+        } catch {
+            return true;
         }
-
-        return true;
     }
 }

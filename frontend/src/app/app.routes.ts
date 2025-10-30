@@ -17,6 +17,7 @@ export const routes: Routes = [
       import('./components/dashboard/dashboard.component').then(
         (m) => m.DashboardComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'school-list',
@@ -24,6 +25,7 @@ export const routes: Routes = [
       import('./components/school/school-list.component').then(
         (m) => m.SchoolListComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'representative-list',
@@ -31,6 +33,7 @@ export const routes: Routes = [
       import('./components/representative/representative-list.component').then(
         (m) => m.RepresentativeListComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'class-list',
@@ -38,6 +41,7 @@ export const routes: Routes = [
       import('./components/class/class-list.component').then(
         (m) => m.ClassListComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'student-list',
@@ -45,6 +49,7 @@ export const routes: Routes = [
       import('./components/student/student-list.component').then(
         (m) => m.StudentListComponent
       ),
+    canActivate: [AuthGuard],
   },
   { path: 'login', redirectTo: '' },
   { path: '**', redirectTo: '' },

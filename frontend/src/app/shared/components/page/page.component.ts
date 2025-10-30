@@ -13,7 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackPopupComponent } from '../feedback-popup/feedback-popup.component';
 import { INews } from '../../interfaces/news.interface';
-import { AuthService } from '../../../guards/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
@@ -54,7 +54,7 @@ export class PageComponent {
   get currentRoute() {
     return this.router.url;
   }
-  
+
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }
