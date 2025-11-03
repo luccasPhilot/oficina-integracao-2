@@ -117,3 +117,26 @@
     margin-left: 6px;
     padding: 4px;
 }
+
+mat-expansion-panel-header {
+    display: flex;
+    align-items: center;
+}
+
+mat-panel-title,
+mat-panel-description {
+    display: flex;
+    align-items: center;
+}
+
+mat-panel-description:not(.actions-col) {
+    flex: 1;
+}
+
+.actions-col {
+    flex: 0 0 60px;
+    max-width: 60px;
+    justify-content: flex-end;
+    display: flex;
+    gap: 8px;
+}

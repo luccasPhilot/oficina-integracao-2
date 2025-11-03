@@ -1,0 +1,86 @@
+.dashboard-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-y: auto;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 1rem 2rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 215px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    position: relative;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+
+    .icon {
+        font-size: 28px;
+        margin-bottom: 0.5rem;
+        opacity: 0.8;
+    }
+
+    .label {
+        font-size: 0.9rem;
+        color: #444;
+    }
+
+    .value {
+        font-weight: 700;
+        font-size: 1.5rem;
+        position: absolute;
+        bottom: 12px;
+        right: 16px;
+        color: #000;
+    }
+
+    .mat-icon {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+.escolas {
+    background-color: #e9f5ff;
+
+    .icon {
+        color: #4695e0;
+    }
+}
+
+.representantes {
+    background-color: #fdeef3;
+
+    .icon {
+        color: #d665a2;
+    }
+}
+
+.turmas {
+    background-color: #e8f7f1;
+
+    .icon {
+        color: #5ab89f;
+    }
+}
+
+.alunos {
+    background-color: #fff8e7;
+
+    .icon {
+        color: #e1a85b;
+    }
+}

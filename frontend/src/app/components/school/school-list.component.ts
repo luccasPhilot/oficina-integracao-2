@@ -17,7 +17,6 @@ import { SchoolFormDialogComponent } from './school-form-dialog/school-form-dial
   styleUrl: './school-list.component.scss',
 })
 export class SchoolListComponent implements OnInit {
-  schoolesList: Escola[] = [];
   schoolsList: Escola[] = [];
 
   readonly panelOpenState = signal(false);
