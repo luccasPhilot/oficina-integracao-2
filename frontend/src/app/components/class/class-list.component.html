@@ -1,10 +1,87 @@
-<page 
-  [title]="'Lista de turmas'" 
+<page
+  [title]="'Lista de turmas'"
   [objectName]="'TURMA'"
   [showAddButton]="true"
   [showSearchBar]="true"
-  [dataSource]="dataSource" 
+  [dataSource]="classesList"
   (addButtonClicked)="addClass()"
 >
+  @if (feedbackMessage()) {
+    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+  }
 
+  <div class="class-list">
+    <mat-accordion hideToggle>
+      <mat-expansion-panel disabled>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Nome</mat-panel-title>
+          <mat-panel-description>Alunos</mat-panel-description>
+          <mat-panel-description>Data de inclusão</mat-panel-description>
+          <mat-panel-description class="panel-actions"></mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="listHasClasses()" disabled>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Nenhuma turma foi encontrada.</mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngFor="let class of classesList" class="class-panel">
+        <mat-expansion-panel-header style="cursor: pointer !important;" *ngIf="!class.filtered">
+          <mat-panel-title>
+            <div class="class-header">
+              <div class="class-initial">{{ getInitials(class.identificacao) }}</div>
+              <div class="class-info">
+                <div class="class-name">{{ class.identificacao }}</div>
+                <div class="class-school">{{ class.escola.nome }}</div>
+              </div>
+            </div>
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ class.alunos?.length }} aluno(s)
+          </mat-panel-description>
+          <mat-panel-description>
+            {{ class.createdAt | date : "dd 'de' MMMM 'de' y" }}
+          </mat-panel-description>
+          <mat-panel-description class="panel-actions">
+            <button mat-icon-button class="icon-button" [matTooltip]="'Editar'" (click)="editClass(class, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="icon-button" [matTooltip]="'Deletar'" (click)="deleteClass(class, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="students-section">
+          <div class="students-header">
+            <span>Alunos</span>
+
+            <button matButton="filled" class="default-button" (click)="''">
+              ADICIONAR ALUNO
+            </button>
+          </div>
+
+          <div class="students-grid">
+            <div class="student-card" *ngFor="let student of class.alunos; let i = index">
+              <div class="student-info">
+                <div class="student-avatar">{{ getInitials(student.nome) }}</div>
+                <div class="student-details">
+                  <div class="student-name">{{ student.nome }}</div>
+                  <div class="student-age">{{ student.idade }} anos</div>
+                </div>
+              </div>
+              <div class="student-actions">
+                <button mat-icon-button class="icon-button" [matTooltip]="'Editar'" (click)="editStudent()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="icon-button" [matTooltip]="'Deletar'" (click)="deleteStudent()">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </page>

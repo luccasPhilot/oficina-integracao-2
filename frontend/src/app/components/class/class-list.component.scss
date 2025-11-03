@@ -1,0 +1,119 @@
+.class-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.class-panel {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.class-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.class-initial {
+    width: 40px;
+    height: 40px;
+    background: #0099ff;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.class-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.class-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.class-school {
+    color: #555;
+    font-size: 14px;
+}
+
+.panel-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+    gap: 20px;
+}
+
+.students-section {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 8px;
+    box-shadow: inset 0 0 0 1px #ddd;
+}
+
+.students-header {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 8px;
+    margin-bottom: 12px;
+    justify-content: space-between;
+}
+
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px 24px;
+}
+
+.student-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 8px 12px;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.student-avatar {
+    width: 36px;
+    height: 36px;
+    background: #0099ff;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.student-name {
+    font-weight: 500;
+}
+
+.student-age {
+    color: #777;
+    font-size: 14px;
+}
+
+.student-actions button, mat-panel-description button {
+    margin-left: 6px;
+    padding: 4px;
+}

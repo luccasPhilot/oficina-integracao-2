@@ -9,7 +9,7 @@
   justify-content: space-between;
   width: 220px;
   height: 100vh;
-  background-color: #dce6ed; /* cor de fundo clarinha */
+  background-color: #dce6ed;
   padding: 1.5rem 1rem;
 }
 
@@ -135,29 +135,12 @@
   height: 46px;
 }
 
-.custom-button {
-  color: white !important;
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-
-  mat-icon {
-      color: white !important;
-  }
-}
-
-.add-button {
-  background-color: #2e3e50;
-}
-
 .filter-button {
   background-color: #8ec6e6;
   width: 32px;
   height: 32px;
   border-radius: 8px;
   align-self: center;
-}
-
-.add-button:hover {
-  background-color: #1c222c;
 }
 
 .filter-button:hover {

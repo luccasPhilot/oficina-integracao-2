@@ -1,7 +1,7 @@
+import { Op } from 'sequelize';
 import Escola from '../models/Escola.js';
 import Turma from '../models/Turma.js';
-import {generateRandomId } from '../utils/RandonId.js';
-import { Op } from 'sequelize';
+import { generateRandomId } from '../utils/RandonId.js';
 
 const TurmaRepository = {
     create: async (data) => {

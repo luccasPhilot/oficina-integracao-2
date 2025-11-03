@@ -2,13 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 // Services
-import { StorageService } from '../storage/storage.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { StorageService } from '../storage/storage.service';
 
 // Models
 import { environment } from '../../environments/environment';
-import { HeaderType } from '../../shared/interfaces/enuns/header-type.enum';
 import { EndpointMark } from '../../shared/interfaces/endpoint-mark.interface';
+import { HeaderType } from '../../shared/interfaces/enuns/header-type.enum';
 
 @Injectable({
   providedIn: 'root'

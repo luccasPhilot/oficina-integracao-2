@@ -52,7 +52,7 @@
         <h1 class="page-title">{{ title }}</h1>
         <div class="header-actions" [ngStyle]="{ 'padding-right': hasLateralScroll ? '20px' : '' }">
           @if (showFilterButton) {
-            <button mat-fab color="primary" [matTooltip]="'Filtro avançado'" (click)="filterButtonClicked.emit()" class="filter-button custom-button">
+            <button mat-fab color="primary" [matTooltip]="'Filtro avançado'" (click)="filterButtonClicked.emit()" class="filter-button default-button">
               <mat-icon>filter_alt</mat-icon>
             </button>
           }
@@ -60,7 +60,7 @@
             <search-bar [(dataSource)]="dataSource" [searchQuery]="searchQuery"> </search-bar>
           }
           @if (showAddButton) {
-            <button matButton="filled" class="add-button custom-button" (click)="addButtonClicked.emit()">
+            <button matButton="filled" class="default-button" (click)="addButtonClicked.emit()">
               <span>ADICIONAR {{ objectName }}</span>
             </button>
           }

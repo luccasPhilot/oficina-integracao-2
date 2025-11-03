@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,9 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { FeedbackPopupComponent } from '../feedback-popup/feedback-popup.component';
-import { INews } from '../../interfaces/news.interface';
 import { AuthService } from '../../../service/auth/auth.service';
+import { FeedbackPopupComponent } from '../feedback-popup/feedback-popup.component';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
@@ -43,13 +42,15 @@ export class PageComponent {
   @Input() dataSource: any = null;
   @Output() filterButtonClicked = new EventEmitter<void>();
   @Output() addButtonClicked = new EventEmitter<void>();
-  @Output() dataSourceChange = new EventEmitter<INews[]>();
+  @Output() dataSourceChange = new EventEmitter<any[]>();
 
   searchQuery!: string;
   feedbackMessage: string = '';
   feedbackType: 'success' | 'error' | '' = '';
 
-  constructor(private readonly router: Router, private readonly http: HttpClient, private readonly authService: AuthService) { }
+  private readonly router = inject(Router);
+  private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
 
   get currentRoute() {
     return this.router.url;

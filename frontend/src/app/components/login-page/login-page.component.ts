@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormsModule,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
-  Validators,
-  NonNullableFormBuilder
+  Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/feedback-popup.component';
-import { AuthService } from '../../service/auth/auth.service';
 import { finalize } from 'rxjs';
+import { AuthService } from '../../service/auth/auth.service';
+import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/feedback-popup.component';
 
 @Component({
   selector: 'app-login-page',
@@ -22,7 +22,6 @@ import { finalize } from 'rxjs';
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPageComponent {
 
