@@ -1,3 +1,31 @@
-<page [title]="'Dashboard'" >
+<page [title]="'Dashboard'">
+    @if (feedbackMessage()) {
+        <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+    }
 
+    <div class="dashboard-cards">
+        <div class="card escolas">
+            <mat-icon class="icon">school</mat-icon>
+            <span class="label">Escolas</span>
+            <span class="value">{{ schoolsList.length }}</span>
+        </div>
+
+        <div class="card representantes">
+            <mat-icon class="icon">groups</mat-icon>
+            <span class="label">Representantes</span>
+            <span class="value">{{ representativeList.length }}</span>
+        </div>
+
+        <div class="card turmas">
+            <mat-icon class="icon">class</mat-icon>
+            <span class="label">Turmas</span>
+            <span class="value">{{ classesList.length }}</span>
+        </div>
+
+        <div class="card alunos">
+            <mat-icon class="icon">person</mat-icon>
+            <span class="label">Alunos</span>
+            <span class="value">{{ studentList.length }}</span>
+        </div>
+    </div>
 </page>

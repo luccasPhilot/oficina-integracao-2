@@ -1,14 +1,95 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatIconModule } from "@angular/material/icon";
+import { ClassService } from '../../service/class/class.service';
+import { SchoolService } from '../../service/school/school.service';
+import { FeedbackPopupComponent } from "../../shared/components/feedback-popup/feedback-popup.component";
 import { PageComponent } from '../../shared/components/page/page.component';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Aluno } from '../../shared/interfaces/aluno.interface';
+import { Escola } from '../../shared/interfaces/escola.interface';
+import { Representante } from '../../shared/interfaces/representante.interface';
+import { Turma } from '../../shared/interfaces/turma.interface';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [PageComponent],
+  imports: [PageComponent, MatIconModule, FeedbackPopupComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
-  constructor(private http: HttpClient, private router: Router) { }
+export class DashboardComponent implements OnInit {
+  classesList: Turma[] = [];
+  schoolsList: Escola[] = [];
+  representativeList: Representante[] = [];
+  studentList: Aluno[] = [];
+
+  feedbackMessage = signal<string>('');
+  feedbackType = signal<'success' | 'error' | ''>('');
+
+  private readonly classService = inject(ClassService);
+  private readonly schoolService = inject(SchoolService);
+  // private readonly representativeService = inject(RepresentativeService);
+  // private readonly studentService = inject(StudentService);
+
+  ngOnInit(): void {
+    this.getClasses();
+    this.getSchools();
+    this.getRepresentatives();
+    this.getStudents();
+  }
+
+  getClasses(): void {
+    this.classService.getAllClasses()
+      .subscribe({
+        next: (result: Turma[]) => {
+          this.classesList = result;
+        },
+        error: (err) => {
+          console.error('Erro ao buscar turmas', err);
+          this.mostrarFeedback('Erro ao buscar turmas. Tente novamente.', 'error');
+        }
+      });
+  }
+
+  getSchools(): void {
+    this.schoolService.getAllSchools()
+      .subscribe({
+        next: (result: Escola[]) => {
+          this.schoolsList = result;
+        },
+        error: (err) => {
+          console.error('Erro ao buscar escolas', err);
+          this.mostrarFeedback('Erro ao buscar escolas. Tente novamente.', 'error');
+        }
+      });
+  }
+
+  getRepresentatives(): void {
+    //   this.schoolService.getAllRepresentatives()
+    //     .subscribe({
+    //       next: (result: Representante[]) => {
+    //         this.representativeList = result;
+    //       },
+    //       error: (err) => {
+    //         console.error('Erro ao buscar representantes', err);
+    //         this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
+    //       }
+    //     });
+  }
+
+  getStudents(): void {
+    //   this.schoolService.getAllStudents()
+    //     .subscribe({
+    //       next: (result: Aluno[]) => {
+    //         this.studentList = result;
+    //       }, 
+    //       error: (err) => {
+    //         console.error('Erro ao buscar alunos', err);
+    //         this.mostrarFeedback('Erro ao buscar alunos. Tente novamente.', 'error');
+    //       }
+    //     });
+  }
+
+  private mostrarFeedback(message: string, type: 'success' | 'error'): void {
+    this.feedbackMessage.set(message);
+    this.feedbackType.set(type);
+  }
 }

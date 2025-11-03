@@ -17,7 +17,7 @@
           <mat-panel-title>Nome</mat-panel-title>
           <mat-panel-description>Alunos</mat-panel-description>
           <mat-panel-description>Data de inclusão</mat-panel-description>
-          <mat-panel-description class="panel-actions"></mat-panel-description>
+          <mat-panel-description class="panel-actions actions-col"></mat-panel-description>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
       <mat-expansion-panel *ngIf="listHasClasses()" disabled>
@@ -38,7 +38,7 @@
           </mat-panel-title>
           <mat-panel-description>{{ class.alunos?.length }} aluno(s)</mat-panel-description>
           <mat-panel-description>{{ class.createdAt | date : "dd 'de' MMMM 'de' y" }}</mat-panel-description>
-          <mat-panel-description class="panel-actions">
+          <mat-panel-description class="panel-actions actions-col">
             <button mat-icon-button class="icon-button" [matTooltip]="'Editar'" (click)="editClass(class, $event)">
               <mat-icon>edit</mat-icon>
             </button>
