@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import Escola from '../models/Escola.js';
 import Turma from '../models/Turma.js';
+import Aluno from '../models/Aluno.js';
 import { generateRandomId } from '../utils/RandonId.js';
 
 const TurmaRepository = {
@@ -10,29 +11,17 @@ const TurmaRepository = {
         return await Turma.create(newData);
     },
 
-    findAll: async (search) => {
-        const whereTurma = search
-            ? {
-                [Op.or]: [
-                {identificacao: {[Op.like]:`%${search}%`}},
-                {escola_id: {[Op.like]:`%${search}%`}},
-                ],
-            }
-            : {};
-
-        const whereEscola = search
-            ? {
-                nome: {[Op.like]: `%${search}%`},
-            }
-            : {};
-
+    findAll: async () => {
         return await Turma.findAll({
-            where: whereTurma,
             include: [
             {
                 model: Escola,
-                attributes: ['nome'],
-                where: whereEscola,
+                attributes: ["nome"],
+                required: false,
+            },
+            {
+                model: Aluno,
+                attributes: ["id", "nome", "idade"],
                 required: false,
             },
             ],
@@ -40,7 +29,20 @@ const TurmaRepository = {
     },
 
     findById: async (id) => {
-        return await Turma.findByPk(id);
+        return await Turma.findByPk(id, {
+            include: [
+            {
+                model: Escola,
+                attributes: ["nome"],
+                required: false,
+            },
+            {
+                model: Aluno,
+                attributes: ["id", "nome", "idade"],
+                required: false,
+            },
+            ],
+        });
     },
 
     update: async (turma, data) => {

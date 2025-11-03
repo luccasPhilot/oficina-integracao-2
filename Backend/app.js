@@ -6,7 +6,7 @@ import { testConnection } from "./src/utils/TestConnection.js";
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   testConnection();
   console.log(`🚀 Servidor de oficina 2 rodando na porta ${PORT}`);
 });
