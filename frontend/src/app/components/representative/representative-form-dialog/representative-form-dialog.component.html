@@ -1,0 +1,43 @@
+@if (feedbackMessage()) {
+    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+}
+
+
+<form class="create-representative-form" [formGroup]="representativeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <mat-label class="field-label">Nome da turma:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="identificacao" required autocomplete="off" />
+            <mat-error *ngIf="representativeForm.get('identificacao')?.touched && representativeForm.get('identificacao')?.hasError('required')">
+                Nome da turma é obrigatório.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group school-field">
+        <div class="school-label-row">
+            <mat-label class="field-label">Escola:</mat-label>
+        </div>
+
+        <div class="school-input-row">
+            <mat-form-field appearance="outline" class="school-select">
+                <mat-select formControlName="escola_id" placeholder="Selecione a escola" required>
+                    <mat-option *ngFor="let school of schoolsList" [value]="school.id">
+                        {{ school.nome }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="representativeForm.get('escola_id')?.touched && representativeForm.get('escola_id')?.hasError('required')">
+                    É obrigatório selecionar uma Escola.
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-icon-button color="primary" class="add-school-button default-button" type="button" (click)="addSchool()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <button mat-flat-button color="primary" class="submit-button default-button" type="submit">
+        <span>{{data ? 'ATUALIZAR TURMA' : 'CRIAR TURMA'}}</span>
+    </button>
+</form>

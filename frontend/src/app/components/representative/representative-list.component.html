@@ -1,10 +1,80 @@
-<page 
-  [title]="'Lista de representantes'" 
-  [objectName]="'REPRESENTANTE'"
-  [showAddButton]="true"
-  [showSearchBar]="true"
-  [dataSource]="dataSource" 
-  (addButtonClicked)="addRepresentative()"
->
+<page [title]="'Lista de representantes'" [objectName]="'REPRESENTANTE'" [showAddButton]="true" [showSearchBar]="true"
+  [dataSource]="representativesList" (addButtonClicked)="addRepresentative()">
+  
+  @if (feedbackMessage()) {
+    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+  }
 
+  <div class="representative-list">
+    <mat-accordion hideToggle>
+      <mat-expansion-panel disabled>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Nome</mat-panel-title>
+          <mat-panel-description>Escola</mat-panel-description>
+          <mat-panel-description>Contato</mat-panel-description>
+          <mat-panel-description>Data de inclusão</mat-panel-description>
+          <mat-panel-description class="panel-actions actions-col"></mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="listHasRepresentatives()" disabled>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Nenhum representante foi encontrado.</mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngFor="let representative of representativesList" class="representative-panel" (opened)="preventExpand($event)">
+        <mat-expansion-panel-header style="cursor: pointer !important;" *ngIf="!representative.filtered">
+          <mat-panel-title>
+            <div class="representative-header">
+              <div class="representative-initial">{{ getInitials(representative.nome) }}</div>
+              <div class="representative-info">
+                <div class="representative-name">{{ representative.nome }}</div>
+                <div class="representative-role">{{ representative.cargo }}</div>
+              </div>
+            </div>
+          </mat-panel-title>
+          <mat-panel-description>{{ representative.escola?.nome }}</mat-panel-description>
+          <mat-panel-description>{{ representative.telefone }}</mat-panel-description>
+          <mat-panel-description>{{ representative.createdAt | date : "dd 'de' MMMM 'de' y" }}</mat-panel-description>
+          <mat-panel-description class="panel-actions actions-col">
+            <button mat-icon-button class="icon-button" [matTooltip]="'Editar'" (click)="editRepresentative(representative, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="icon-button" [matTooltip]="'Deletar'" (click)="deleteRepresentative(representative, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="representative-details">
+          <div class="detail-row">
+            <span class="detail-label">Nome completo:</span>
+            <span class="detail-value">{{ representative.nome }}</span>
+          </div>
+        
+          <div class="detail-row">
+            <span class="detail-label">Cargo:</span>
+            <span class="detail-value">{{ representative.cargo }}</span>
+          </div>
+        
+          <div class="detail-row">
+            <span class="detail-label">Escola:</span>
+            <span class="detail-value">{{ representative.escola?.nome }}</span>
+          </div>
+        
+          <div class="detail-row">
+            <span class="detail-label">Telefone:</span>
+            <span class="detail-value">{{ representative.telefone }}</span>
+          </div>
+      
+          <div class="detail-row">
+            <span class="detail-label">Data de inclusão:</span>
+            <span class="detail-value">
+              {{ representative.createdAt | date : "dd 'de' MMMM 'de' y 'às' HH:mm" }}
+            </span>
+          </div>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </page>

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, take } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Turma } from '../../shared/interfaces/turma.interface';
 import { ApiService } from '../api/api.service';
 
 @Injectable({
@@ -12,9 +12,8 @@ export class ClassService {
   public URL = `${environment.apiUrl}/`
 
   private readonly apiService = inject(ApiService);
-  private readonly router = inject(Router);
 
-  public addClass(request: { name: string; school: string; }): Observable<any> {
+  public addClass(request: Turma): Observable<any> {
     return this.apiService.post(this.URL, 'turma', request, undefined, undefined, { withCredentials: true })
       .pipe(take(1));
   }
@@ -29,7 +28,7 @@ export class ClassService {
       .pipe(take(1));
   }
 
-  public updateClass(classId: string, request: { name: string; school: string; }): Observable<any> {
+  public updateClass(classId: string, request: Turma): Observable<any> {
     return this.apiService.put(this.URL, 'turma/id', request, [{ name: 'id', value: classId }])
       .pipe(take(1));
   }
