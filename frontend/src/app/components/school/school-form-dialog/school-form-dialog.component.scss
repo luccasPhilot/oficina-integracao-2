@@ -1,0 +1,42 @@
+.create-school-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 32px;
+}
+
+.field-label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.city-state-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.city-field {
+    flex: 3;
+}
+
+.state-field {
+    flex: 1;
+}
+
+.submit-button {
+    align-self: flex-end;
+    margin-top: 16px;
+    background-color: #03a9f4;
+    color: white;
+    font-weight: 600;
+}
+
+.submit-button:hover {
+    background-color: #0288d1;
+}

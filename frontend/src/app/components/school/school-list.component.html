@@ -1,10 +1,75 @@
-<page 
-  [title]="'Lista de escolas'" 
-  [objectName]="'ESCOLA'"
-  [showAddButton]="true"
-  [showSearchBar]="true"
-  [dataSource]="dataSource" 
-  (addButtonClicked)="addSchool()"
->
+<page [title]="'Lista de escolas'" [objectName]="'ESCOLA'" [showAddButton]="true" [showSearchBar]="true"
+  [dataSource]="schoolsList" (addButtonClicked)="addSchool()">
+  @if (feedbackMessage()) {
+    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+  }
 
+  <div class="school-list">
+    <mat-accordion hideToggle>
+      <mat-expansion-panel disabled>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="name-col">Escola</mat-panel-title>
+          <mat-panel-description>Cidade</mat-panel-description>
+          <mat-panel-description class="state-col">Estado</mat-panel-description>
+          <mat-panel-description>Telefone</mat-panel-description>
+          <mat-panel-description>Data de inclusão</mat-panel-description>
+          <mat-panel-description class="panel-actions actions-col"></mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="listHasSchools()" disabled>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Nenhuma escola foi encontrada.</mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngFor="let school of schoolsList" class="school-panel">
+        <mat-expansion-panel-header style="cursor: pointer !important;" *ngIf="!school.filtered">
+          <mat-panel-title class="name-col">
+            <div class="school-header">
+              <div class="school-initial">{{ getInitials(school.nome) }}</div>
+              <div class="school-info">
+                <div class="school-name">{{ school.nome }}</div>
+              </div>
+            </div>
+          </mat-panel-title>
+          <mat-panel-description>{{ school.cidade }}</mat-panel-description>
+          <mat-panel-description class="state-col">{{ school.estado }}</mat-panel-description>
+          <mat-panel-description>{{ school.telefone }}</mat-panel-description>
+          <mat-panel-description>{{ school.createdAt | date : "dd 'de' MMMM 'de' y" }}</mat-panel-description>
+          <mat-panel-description class="panel-actions actions-col">
+            <button mat-icon-button class="icon-button" [matTooltip]="'Editar'" (click)="editSchool(school, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="icon-button" [matTooltip]="'Deletar'" (click)="deleteSchool(school, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="details-section">
+          <div class="details-info">
+            <p><strong>Email:</strong> {{ school.email || '-' }}</p>
+            <p><strong>Endereço:</strong> {{ school.endereco || '-' }}</p>
+          </div>
+        
+          <div class="details-cards">
+            <div class="detail-card representantes">
+              <div class="detail-number">{{ 0 }}</div>
+              <div class="detail-label">Representantes</div>
+            </div>
+        
+            <div class="detail-card turmas">
+              <div class="detail-number">{{ 0 }}</div>
+              <div class="detail-label">Turmas</div>
+            </div>
+        
+            <div class="detail-card alunos">
+              <div class="detail-number">{{ 0 }}</div>
+              <div class="detail-label">Alunos</div>
+            </div>
+          </div>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </page>

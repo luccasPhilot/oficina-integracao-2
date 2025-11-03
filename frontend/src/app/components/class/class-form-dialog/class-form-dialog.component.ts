@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { SchoolService } from '../../../service/school/school.service';
 import { FeedbackPopupComponent } from "../../../shared/components/feedback-popup/feedback-popup.component";
 import { Escola } from '../../../shared/interfaces/escola.interface';
 import { Turma } from '../../../shared/interfaces/turma.interface';
+import { SchoolFormDialogComponent } from '../../school/school-form-dialog/school-form-dialog.component';
 
 @Component({
   selector: 'class-form-dialog',
@@ -39,6 +40,7 @@ export class ClassFormDialogComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly classService = inject(ClassService);
   private readonly schoolService = inject(SchoolService);
+  private readonly dialog = inject(MatDialog);
   public dialogRef = inject(MatDialogRef<ClassFormDialogComponent>);
 
   constructor(
@@ -76,7 +78,17 @@ export class ClassFormDialogComponent implements OnInit {
   }
 
   addSchool(): void {
-    //To do
+    this.dialog.open(SchoolFormDialogComponent, { maxWidth: '800px', width: '100%' })
+      .afterClosed().subscribe((result) => {
+        if (result) {
+          this.classForm.patchValue({
+            escola_id: result.id
+          });
+
+          this.mostrarFeedback(result.message, result.type);
+          this.getSchools();
+        }
+      });
   }
 
   onSubmit(): void {

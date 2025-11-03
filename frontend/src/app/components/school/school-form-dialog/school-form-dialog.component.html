@@ -1,0 +1,73 @@
+@if (feedbackMessage()) {
+<app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+}
+
+<form class="create-school-form" [formGroup]="schoolForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <mat-label class="field-label">Nome da escola:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="nome" required autocomplete="off" />
+            <mat-error *ngIf="schoolForm.get('nome')?.touched && schoolForm.get('nome')?.hasError('required')">
+                Nome da escola é obrigatório.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-label class="field-label">Telefone:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="telefone" required autocomplete="off" />
+            <mat-error *ngIf="schoolForm.get('telefone')?.touched && schoolForm.get('telefone')?.hasError('required')">
+                Telefone é obrigatório.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-label class="field-label">Email:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="email" required autocomplete="off" />
+            <mat-error *ngIf="schoolForm.get('email')?.touched && schoolForm.get('email')?.hasError('required')">
+                Email é obrigatório.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-label class="field-label">Endereço:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="endereco" required autocomplete="off" />
+            <mat-error *ngIf="schoolForm.get('endereco')?.touched && schoolForm.get('endereco')?.hasError('required')">
+                Endereço é obrigatório.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="city-state-row">
+        <div class="form-group city-field">
+            <mat-label class="field-label">Cidade:</mat-label>
+            <mat-form-field appearance="outline" class="full-width">
+                <input matInput formControlName="cidade" required autocomplete="off" />
+                <mat-error *ngIf="schoolForm.get('cidade')?.touched && schoolForm.get('cidade')?.hasError('required')">
+                    Cidade é obrigatória.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group state-field">
+            <mat-label class="field-label">Estado:</mat-label>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-select formControlName="estado" placeholder="UF" required>
+                    <mat-option *ngFor="let uf of estados" [value]="uf">{{ uf }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="schoolForm.get('estado')?.touched && schoolForm.get('estado')?.hasError('required')">
+                    Estado é obrigatório.
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <button mat-flat-button color="primary" class="submit-button default-button" type="submit">
+        <span>{{ data ? 'SALVAR ALTERAÇÕES' : 'ADICIONAR ESCOLA' }}</span>
+    </button>
+</form>

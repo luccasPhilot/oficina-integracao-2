@@ -32,16 +32,12 @@
               <div class="class-initial">{{ getInitials(class.identificacao) }}</div>
               <div class="class-info">
                 <div class="class-name">{{ class.identificacao }}</div>
-                <div class="class-school">{{ class.escola.nome }}</div>
+                <div class="class-school">{{ class.escola?.nome }}</div>
               </div>
             </div>
           </mat-panel-title>
-          <mat-panel-description>
-            {{ class.alunos?.length }} aluno(s)
-          </mat-panel-description>
-          <mat-panel-description>
-            {{ class.createdAt | date : "dd 'de' MMMM 'de' y" }}
-          </mat-panel-description>
+          <mat-panel-description>{{ class.alunos?.length }} aluno(s)</mat-panel-description>
+          <mat-panel-description>{{ class.createdAt | date : "dd 'de' MMMM 'de' y" }}</mat-panel-description>
           <mat-panel-description class="panel-actions">
             <button mat-icon-button class="icon-button" [matTooltip]="'Editar'" (click)="editClass(class, $event)">
               <mat-icon>edit</mat-icon>

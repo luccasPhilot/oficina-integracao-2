@@ -56,7 +56,6 @@ export class ClassListComponent implements OnInit {
         next: (result: Escola[]) => {
           this.schoolsList = result;
 
-
           this.classesList.forEach(classItem => {
             classItem.escola = this.schoolsList.find(school => school.id === classItem.escola_id);
 
@@ -96,6 +95,7 @@ export class ClassListComponent implements OnInit {
           this.feedbackType.set('');
 
           this.mostrarFeedback(result.message, result.type);
+          this.getClasses();
         }
       });
   }
