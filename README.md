@@ -59,7 +59,8 @@ O projeto utiliza o **Scrum** como metodologia ágil de desenvolvimento. O traba
 
 ## Equipe e Papéis
 
-* **Álison Christian Rebouças Vidal de Carvalho** - *Product Owner*
-* **João Pedro Correia Leite Moreira** - *Scrum Master*
+* **Álison Christian Rebouças Vidal de Carvalho** - *Product Owner/Scrum Master*
+* **João Pedro Correia Leite Moreira** - *Desenvolvedor*
 * **Luccas Philot Gonçalves** - *Desenvolvedor*
 * **Yuri Garcia Yoshida** - *Desenvolvedor*
+
