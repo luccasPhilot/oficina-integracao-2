@@ -1,16 +1,29 @@
 @if (feedbackMessage()) {
-    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+<app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
 }
-
 
 <form class="create-representative-form" [formGroup]="representativeForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-        <mat-label class="field-label">Nome da turma:</mat-label>
+        <mat-label class="field-label">Nome do representante:</mat-label>
         <mat-form-field appearance="outline" class="full-width">
-            <input matInput formControlName="identificacao" required autocomplete="off" />
-            <mat-error *ngIf="representativeForm.get('identificacao')?.touched && representativeForm.get('identificacao')?.hasError('required')">
-                Nome da turma é obrigatório.
+            <input matInput formControlName="nome" required autocomplete="off" placeholder="Digite o nome completo" />
+            <mat-error *ngIf="representativeForm.get('nome')?.touched && representativeForm.get('nome')?.hasError('required')">
+                Nome do representante é obrigatório.
             </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-label class="field-label">Cargo:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="cargo" autocomplete="off" placeholder="Ex: Coordenador de Pais" />
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-label class="field-label">Telefone:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="telefone" autocomplete="off" placeholder="(xx) xxxx-xxxx" />
         </mat-form-field>
     </div>
 
@@ -27,7 +40,7 @@
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="representativeForm.get('escola_id')?.touched && representativeForm.get('escola_id')?.hasError('required')">
-                    É obrigatório selecionar uma Escola.
+                    É obrigatório selecionar uma escola.
                 </mat-error>
             </mat-form-field>
 
@@ -38,6 +51,6 @@
     </div>
 
     <button mat-flat-button color="primary" class="submit-button default-button" type="submit">
-        <span>{{data ? 'ATUALIZAR TURMA' : 'CRIAR TURMA'}}</span>
+        <span>{{ data ? 'ATUALIZAR REPRESENTANTE' : 'CRIAR REPRESENTANTE' }}</span>
     </button>
 </form>

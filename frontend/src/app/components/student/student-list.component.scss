@@ -1,0 +1,107 @@
+.student-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.student-panel {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.student-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.student-initial {
+    width: 40px;
+    height: 40px;
+    background: #0099ff;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.student-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.student-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.student-class {
+    color: #555;
+    font-size: 14px;
+}
+
+.panel-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+    gap: 20px;
+}
+
+mat-panel-description button {
+    margin-left: 6px;
+    padding: 4px;
+}
+
+mat-expansion-panel-header {
+    display: flex;
+    align-items: center;
+}
+
+mat-panel-title,
+mat-panel-description {
+    display: flex;
+    align-items: center;
+}
+
+mat-panel-description:not(.actions-col) {
+    flex: 1;
+}
+
+.actions-col {
+    flex: 0 0 60px;
+    max-width: 60px;
+    justify-content: flex-end;
+    display: flex;
+    gap: 8px;
+}
+
+.student-details {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fafafa;
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1.5rem;
+
+    .detail-row {
+        display: flex;
+        flex-direction: column;
+
+        .detail-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #444;
+        }
+
+        .detail-value {
+            font-size: 0.9rem;
+            color: #222;
+        }
+    }
+}

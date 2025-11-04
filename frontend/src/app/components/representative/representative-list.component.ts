@@ -133,7 +133,7 @@ export class RepresentativeListComponent implements OnInit {
   }
 
   addRepresentative(): void {
-    this.dialog.open(RepresentativeFormDialogComponent, { width: '560px' })
+    this.dialog.open(RepresentativeFormDialogComponent, { maxWidth: '800px', width: '100%' })
       .afterClosed().subscribe((result) => {
         if (result) {
           this.feedbackMessage.set('');
@@ -148,7 +148,7 @@ export class RepresentativeListComponent implements OnInit {
   editRepresentative(representativesItem: Representante, event: MouseEvent): void {
     event.stopPropagation();
 
-    this.dialog.open(RepresentativeFormDialogComponent, { width: '560px', data: representativesItem })
+    this.dialog.open(RepresentativeFormDialogComponent, { maxWidth: '800px', width: '100%', data: representativesItem })
       .afterClosed().subscribe((result) => {
         if (result) {
           this.mostrarFeedback(result.message, result.type);
@@ -175,10 +175,6 @@ export class RepresentativeListComponent implements OnInit {
 
   listHasRepresentatives(): boolean {
     return this.representativesList.every(cls => cls.filtered === true);
-  }
-
-  preventExpand(panel: any): void {
-    panel.close();
   }
 
   private mostrarFeedback(message: string, type: 'success' | 'error'): void {

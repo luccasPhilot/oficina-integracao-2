@@ -1,6 +1,5 @@
 import { Router } from "express";
-import cookieParser from "cookie-parser";
-import { createAluno, getAllAlunos, getAlunoById, updateAluno, deleteAluno } from '../controllers/AlunoController.js';
+import { createAluno, deleteAluno, getAllAlunos, getAlunoById, updateAluno } from '../controllers/AlunoController.js';
 
 const router = Router();
 

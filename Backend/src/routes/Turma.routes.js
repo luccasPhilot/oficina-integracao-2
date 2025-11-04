@@ -1,6 +1,5 @@
 import { Router } from "express";
-import cookieParser from "cookie-parser";
-import { createTurma, getAllTurmas, getTurmaById, updateTurma, deleteTurma } from '../controllers/TurmaController.js';
+import { createTurma, deleteTurma, getAllTurmas, getTurmaById, updateTurma } from '../controllers/TurmaController.js';
 
 const router = Router();
 

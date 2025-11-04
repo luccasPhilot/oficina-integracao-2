@@ -5,9 +5,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClassService } from '../../service/class/class.service';
-import { SchoolService } from '../../service/school/school.service';
 import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/feedback-popup.component';
 import { PageComponent } from '../../shared/components/page/page.component';
+import { Aluno } from '../../shared/interfaces/aluno.interface';
 import { Escola } from '../../shared/interfaces/escola.interface';
 import { Turma } from '../../shared/interfaces/turma.interface';
 import { ClassFormDialogComponent } from './class-form-dialog/class-form-dialog.component';
@@ -29,7 +29,6 @@ export class ClassListComponent implements OnInit {
 
   private readonly dialog = inject(MatDialog);
   private readonly classService = inject(ClassService);
-  private readonly schoolService = inject(SchoolService);
 
   ngOnInit(): void {
     this.getClasses();
@@ -38,44 +37,19 @@ export class ClassListComponent implements OnInit {
   getClasses(): void {
     this.classService.getAllClasses()
       .subscribe({
-        next: (result: Turma[]) => {
-          this.classesList = result;
-
-          this.getSchools();
+        next: (result: any[]) => {
+          this.classesList = result.map((item): Turma => ({
+            id: String(item.id),
+            identificacao: String(item.identificacao),
+            escola: item.Escola as Escola || item.escola as Escola || {} as Escola,
+            alunos: (item.Alunos as Aluno[] || item.alunos as Aluno[] || []),
+            escola_id: String(item.escola_id),
+            createdAt: new Date(item.createdAt).toISOString(),
+          }));
         },
         error: (err) => {
           console.error('Erro ao buscar turmas', err);
           this.mostrarFeedback('Erro ao buscar turmas. Tente novamente.', 'error');
-        }
-      });
-  }
-
-  getSchools(): void {
-    this.schoolService.getAllSchools()
-      .subscribe({
-        next: (result: Escola[]) => {
-          this.schoolsList = result;
-
-          this.classesList.forEach(classItem => {
-            classItem.escola = this.schoolsList.find(school => school.id === classItem.escola_id);
-
-            //To do: Remover dados mockados quando a API estiver completa
-            if (!classItem.alunos) {
-              classItem.alunos = [
-                { id: 'A0001', nome: 'José Silva Alves', idade: 17, turma_id: 'T0001' },
-                { id: 'A0002', nome: 'Ana Souza', idade: 16, turma_id: 'T0001' },
-                { id: 'A0003', nome: 'Pedro Santos', idade: 17, turma_id: 'T0001' },
-                { id: 'A0004', nome: 'Laura Castro', idade: 15, turma_id: 'T0001' },
-                { id: 'A0005', nome: 'Rafael Moura', idade: 18, turma_id: 'T0002' },
-                { id: 'A0006', nome: 'Tatiane Barbosa', idade: 16, turma_id: 'T0002' }
-              ];
-            }
-          });
-
-        },
-        error: (err) => {
-          console.error('Erro ao buscar escolas', err);
-          this.mostrarFeedback('Erro ao buscar escolas. Tente novamente.', 'error');
         }
       });
   }

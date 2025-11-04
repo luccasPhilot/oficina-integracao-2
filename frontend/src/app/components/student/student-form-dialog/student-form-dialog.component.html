@@ -1,0 +1,51 @@
+@if (feedbackMessage()) {
+    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+}
+
+<form class="create-student-form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <mat-label class="field-label">Nome do aluno:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput formControlName="nome" required autocomplete="off" placeholder="Digite o nome completo" />
+            <mat-error *ngIf="studentForm.get('nome')?.touched && studentForm.get('nome')?.hasError('required')">
+                Nome do aluno é obrigatório.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-label class="field-label">Idade:</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+            <input matInput type="number" formControlName="idade" autocomplete="off" placeholder="Ex: 12" />
+            <mat-error *ngIf="studentForm.get('idade')?.hasError('min') || studentForm.get('idade')?.hasError('max')">
+                Idade deve estar entre 1 e 120 anos.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group class-field">
+        <div class="school-label-row">
+            <mat-label class="field-label">Turma:</mat-label>
+        </div>
+        <div class="class-input-row">
+            <mat-form-field appearance="outline" class="class-select">
+                <mat-select formControlName="turma_id" placeholder="Selecione a turma" required>
+                    <mat-option *ngFor="let turma of classesList" [value]="turma.id">
+                        {{ turma.identificacao }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="studentForm.get('turma_id')?.touched && studentForm.get('turma_id')?.hasError('required')">
+                    É obrigatório selecionar uma turma.
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-icon-button color="primary" class="add-class-button default-button" type="button" (click)="addClass()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <button mat-flat-button color="primary" class="submit-button default-button" type="submit">
+        <span>{{ data ? 'ATUALIZAR ALUNO' : 'CRIAR ALUNO' }}</span>
+    </button>
+</form>

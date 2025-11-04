@@ -21,7 +21,7 @@
           <mat-panel-title>Nenhum representante foi encontrado.</mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
-      <mat-expansion-panel *ngFor="let representative of representativesList" class="representative-panel" (opened)="preventExpand($event)">
+      <mat-expansion-panel *ngFor="let representative of representativesList" class="representative-panel">
         <mat-expansion-panel-header style="cursor: pointer !important;" *ngIf="!representative.filtered">
           <mat-panel-title>
             <div class="representative-header">
@@ -73,7 +73,6 @@
             </span>
           </div>
         </div>
-
       </mat-expansion-panel>
     </mat-accordion>
   </div>

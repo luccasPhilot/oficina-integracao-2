@@ -110,7 +110,7 @@ export class ClassFormDialogComponent implements OnInit {
       next: (res) => {
         const message = res.message || (this.data ? 'Turma atualizada com sucesso!' : 'Turma criada com sucesso!');
         const type = res.type || 'success';
-        this.dialogRef.close({ message, type });
+        this.dialogRef.close({ id: res.id, message, type });
       },
       error: (err) => {
         console.error('Erro ao salvar turma', err);

@@ -1,6 +1,5 @@
 import { Router } from "express";
-import cookieParser from "cookie-parser";
-import { createEscola, getAllEscolas, getEscolaById, updateEscola, deleteEscola, getAllTurmasByEscolaId } from '../controllers/EscolaController.js';
+import { createEscola, deleteEscola, getAllEscolas, getAllTurmasByEscolaId, getEscolaById, updateEscola } from '../controllers/EscolaController.js';
 
 const router = Router();
 

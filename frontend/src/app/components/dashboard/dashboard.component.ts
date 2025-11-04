@@ -1,7 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from "@angular/material/icon";
 import { ClassService } from '../../service/class/class.service';
+import { RepresentativeService } from '../../service/representative/representative.service';
 import { SchoolService } from '../../service/school/school.service';
+import { StudentService } from '../../service/student/student.service';
 import { FeedbackPopupComponent } from "../../shared/components/feedback-popup/feedback-popup.component";
 import { PageComponent } from '../../shared/components/page/page.component';
 import { Aluno } from '../../shared/interfaces/aluno.interface';
@@ -26,8 +28,8 @@ export class DashboardComponent implements OnInit {
 
   private readonly classService = inject(ClassService);
   private readonly schoolService = inject(SchoolService);
-  // private readonly representativeService = inject(RepresentativeService);
-  // private readonly studentService = inject(StudentService);
+  private readonly representativeService = inject(RepresentativeService);
+  private readonly studentService = inject(StudentService);
 
   ngOnInit(): void {
     this.getClasses();
@@ -63,29 +65,29 @@ export class DashboardComponent implements OnInit {
   }
 
   getRepresentatives(): void {
-    //   this.schoolService.getAllRepresentatives()
-    //     .subscribe({
-    //       next: (result: Representante[]) => {
-    //         this.representativeList = result;
-    //       },
-    //       error: (err) => {
-    //         console.error('Erro ao buscar representantes', err);
-    //         this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
-    //       }
-    //     });
+    // this.representativeService.getAllRepresentatives()
+    //   .subscribe({
+    //     next: (result: Representante[]) => {
+    //       this.representativeList = result;
+    //     },
+    //     error: (err) => {
+    //       console.error('Erro ao buscar representantes', err);
+    //       this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
+    //     }
+    //   });
   }
 
   getStudents(): void {
-    //   this.schoolService.getAllStudents()
-    //     .subscribe({
-    //       next: (result: Aluno[]) => {
-    //         this.studentList = result;
-    //       }, 
-    //       error: (err) => {
-    //         console.error('Erro ao buscar alunos', err);
-    //         this.mostrarFeedback('Erro ao buscar alunos. Tente novamente.', 'error');
-    //       }
-    //     });
+    this.studentService.getAllStudents()
+      .subscribe({
+        next: (result: Aluno[]) => {
+          this.studentList = result;
+        },
+        error: (err) => {
+          console.error('Erro ao buscar alunos', err);
+          this.mostrarFeedback('Erro ao buscar alunos. Tente novamente.', 'error');
+        }
+      });
   }
 
   private mostrarFeedback(message: string, type: 'success' | 'error'): void {
