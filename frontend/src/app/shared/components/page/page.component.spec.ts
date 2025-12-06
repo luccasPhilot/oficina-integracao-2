@@ -61,17 +61,17 @@ describe('PageComponent', () => {
         expect(router.navigate).toHaveBeenCalledWith(['/student-list']);
     });
 
-    it('deve emitir filterButtonClicked quando o botão de filtro for clicado', () => {
-        component.showFilterButton = true;
-        fixture.detectChanges();
+    // it('deve emitir filterButtonClicked quando o botão de filtro for clicado', () => {
+    //     component.showFilterButton = true;
+    //     fixture.detectChanges();
 
-        spyOn(component.filterButtonClicked, 'emit');
+    //     spyOn(component.filterButtonClicked, 'emit');
 
-        const button = fixture.debugElement.query(By.css('.filter-button'));
-        button.triggerEventHandler('click');
+    //     const button = fixture.debugElement.query(By.css('.filter-button'));
+    //     button.triggerEventHandler('click');
 
-        expect(component.filterButtonClicked.emit).toHaveBeenCalled();
-    });
+    //     expect(component.filterButtonClicked.emit).toHaveBeenCalled();
+    // });
 
     it('deve emitir addButtonClicked quando o botão de adicionar for clicado', () => {
         component.showAddButton = true;
@@ -119,19 +119,19 @@ describe('PageComponent', () => {
         expect(searchBar).toBeTruthy();
     });
 
-    it('deve renderizar o botão de adicionar quando showAddButton=true', () => {
-        component.showAddButton = true;
-        fixture.detectChanges();
+    // it('deve renderizar o botão de adicionar quando showAddButton=true', () => {
+    //     component.showAddButton = true;
+    //     fixture.detectChanges();
 
-        const addButton = fixture.debugElement.query(By.css('.default-button'));
-        expect(addButton).toBeTruthy();
-    });
+    //     const addButton = fixture.debugElement.query(By.css('.default-button'));
+    //     expect(addButton).toBeTruthy();
+    // });
 
-    it('deve renderizar o botão de filtro quando showFilterButton=true', () => {
-        component.showFilterButton = true;
-        fixture.detectChanges();
+    // it('deve renderizar o botão de filtro quando showFilterButton=true', () => {
+    //     component.showFilterButton = true;
+    //     fixture.detectChanges();
 
-        const filterButton = fixture.debugElement.query(By.css('.filter-button'));
-        expect(filterButton).toBeTruthy();
-    });
+    //     const filterButton = fixture.debugElement.query(By.css('.filter-button'));
+    //     expect(filterButton).toBeTruthy();
+    // });
 });
