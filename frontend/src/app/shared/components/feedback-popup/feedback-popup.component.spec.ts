@@ -52,13 +52,13 @@ describe('FeedbackPopupComponent', () => {
         fixture.detectChanges();
         expect(component.isVisible).toBeTrue();
 
-        tick(3000); // avança o tempo
+        tick(3000);
         fixture.detectChanges();
 
         expect(component.isVisible).toBeFalse();
 
         const popup = fixture.debugElement.query(By.css('.feedback-popup'));
-        expect(popup).toBeNull(); // não deve estar no DOM
+        expect(popup).toBeNull();
     }));
 
     it('deve aplicar a classe "feedback-success" quando type="success"', () => {

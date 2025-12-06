@@ -26,9 +26,6 @@ describe('RepresentativeService', () => {
     apiService = TestBed.inject(ApiService) as jasmine.SpyObj<ApiService>;
   });
 
-  // -------------------------------------------------------------------
-  // addRepresentative()
-  // -------------------------------------------------------------------
   it('deve chamar addRepresentative corretamente', () => {
     const request: Representante = { nome: 'João' } as Representante;
     const mockResponse = { success: true };
@@ -49,9 +46,6 @@ describe('RepresentativeService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // getRepresentative()
-  // -------------------------------------------------------------------
   it('deve chamar getRepresentative com id correto', () => {
     const mockResponse = { id: '10', nome: 'Maria' };
 
@@ -70,9 +64,6 @@ describe('RepresentativeService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // getAllRepresentatives()
-  // -------------------------------------------------------------------
   it('deve chamar getAllRepresentatives corretamente', () => {
     const mockResponse = [{ id: '1' }, { id: '2' }];
 
@@ -91,9 +82,6 @@ describe('RepresentativeService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // updateRepresentative()
-  // -------------------------------------------------------------------
   it('deve chamar updateRepresentative com params corretos', () => {
     const request: Representante = { nome: 'Atualizado' } as Representante;
     const mockResponse = { updated: true };
@@ -112,9 +100,6 @@ describe('RepresentativeService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // deleteRepresentative()
-  // -------------------------------------------------------------------
   it('deve chamar deleteRepresentative com params corretos', () => {
     const mockResponse = { deleted: true };
 

@@ -89,7 +89,6 @@ export class SchoolFormDialogComponent {
         this.dialogRef.close({ id: res.id, message, type });
       },
       error: (err) => {
-        console.error('Erro ao salvar Escola', err);
         const message = err.error?.message || 'Erro ao salvar Escola. Tente novamente.';
         this.mostrarFeedback(message, 'error');
       }

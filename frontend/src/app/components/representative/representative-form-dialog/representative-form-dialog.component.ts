@@ -73,7 +73,6 @@ export class RepresentativeFormDialogComponent implements OnInit {
 
         },
         error: (err) => {
-          console.error('Erro ao buscar escolas', err);
           this.mostrarFeedback('Erro ao buscar escolas. Tente novamente.', 'error');
         }
       });
@@ -115,7 +114,6 @@ export class RepresentativeFormDialogComponent implements OnInit {
         this.dialogRef.close({ message, type });
       },
       error: (err) => {
-        console.error('Erro ao salvar representante', err);
         const message = err.error?.message || 'Erro ao salvar representante. Tente novamente.';
         this.mostrarFeedback(message, 'error');
       }

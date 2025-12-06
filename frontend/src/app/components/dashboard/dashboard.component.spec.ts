@@ -13,7 +13,6 @@ import { DashboardComponent } from './dashboard.component';
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
 
-  // Mocks
   let classServiceMock: jasmine.SpyObj<ClassService>;
   let schoolServiceMock: jasmine.SpyObj<SchoolService>;
   let representativeServiceMock: jasmine.SpyObj<RepresentativeService>;
@@ -48,10 +47,7 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // -------------------------------------------------------------
-  // ngOnInit
-  // -------------------------------------------------------------
-  it('should call getClasses, getSchools, getRepresentatives and getStudents on init', () => {
+  it('should call all fetch methods on init', () => {
     spyOn(component, 'getClasses');
     spyOn(component, 'getSchools');
     spyOn(component, 'getRepresentatives');
@@ -65,12 +61,8 @@ describe('DashboardComponent', () => {
     expect(component.getStudents).toHaveBeenCalled();
   });
 
-  // -------------------------------------------------------------
-  // getClasses()
-  // -------------------------------------------------------------
-  it('should load classes on success', () => {
+  it('should load classes successfully', () => {
     const mockData = [{ id: 1, nome: 'Turma A' }] as any;
-
     classServiceMock.getAllClasses.and.returnValue(of(mockData));
 
     component.getClasses();
@@ -79,24 +71,17 @@ describe('DashboardComponent', () => {
   });
 
   it('should show feedback on getClasses error', () => {
+    spyOn(console, 'error');
     classServiceMock.getAllClasses.and.returnValue(throwError(() => new Error('Error')));
-
-    const feedbackSpy = spyOn<any>(component, 'mostrarFeedback').and.callThrough();
+    const feedbackSpy = spyOn<any>(component, 'mostrarFeedback');
 
     component.getClasses();
 
-    expect(feedbackSpy).toHaveBeenCalledWith(
-      'Erro ao buscar turmas. Tente novamente.',
-      'error'
-    );
+    expect(feedbackSpy).toHaveBeenCalledWith('Erro ao buscar turmas. Tente novamente.', 'error');
   });
 
-  // -------------------------------------------------------------
-  // getSchools()
-  // -------------------------------------------------------------
-  it('should load schools on success', () => {
+  it('should load schools successfully', () => {
     const mockData = [{ id: 10, nome: 'Escola XPTO' }] as any;
-
     schoolServiceMock.getAllSchools.and.returnValue(of(mockData));
 
     component.getSchools();
@@ -105,24 +90,17 @@ describe('DashboardComponent', () => {
   });
 
   it('should show feedback on getSchools error', () => {
+    spyOn(console, 'error');
     schoolServiceMock.getAllSchools.and.returnValue(throwError(() => new Error('Error')));
-
-    const feedbackSpy = spyOn<any>(component, 'mostrarFeedback').and.callThrough();
+    const feedbackSpy = spyOn<any>(component, 'mostrarFeedback');
 
     component.getSchools();
 
-    expect(feedbackSpy).toHaveBeenCalledWith(
-      'Erro ao buscar escolas. Tente novamente.',
-      'error'
-    );
+    expect(feedbackSpy).toHaveBeenCalledWith('Erro ao buscar escolas. Tente novamente.', 'error');
   });
 
-  // -------------------------------------------------------------
-  // getStudents()
-  // -------------------------------------------------------------
-  it('should load students on success', () => {
+  it('should load students successfully', () => {
     const mockData = [{ id: 5, nome: 'Maria' }] as any;
-
     studentServiceMock.getAllStudents.and.returnValue(of(mockData));
 
     component.getStudents();
@@ -131,21 +109,15 @@ describe('DashboardComponent', () => {
   });
 
   it('should show feedback on getStudents error', () => {
+    spyOn(console, 'error');
     studentServiceMock.getAllStudents.and.returnValue(throwError(() => new Error('Error')));
-
-    const feedbackSpy = spyOn<any>(component, 'mostrarFeedback').and.callThrough();
+    const feedbackSpy = spyOn<any>(component, 'mostrarFeedback');
 
     component.getStudents();
 
-    expect(feedbackSpy).toHaveBeenCalledWith(
-      'Erro ao buscar alunos. Tente novamente.',
-      'error'
-    );
+    expect(feedbackSpy).toHaveBeenCalledWith('Erro ao buscar alunos. Tente novamente.', 'error');
   });
 
-  // -------------------------------------------------------------
-  // mostrarFeedback()
-  // -------------------------------------------------------------
   it('should update feedbackMessage and feedbackType', () => {
     component['mostrarFeedback']('Mensagem OK', 'success');
 

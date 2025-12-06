@@ -37,7 +37,6 @@ export class StudentListComponent implements OnInit {
           this.studentsList = result;
         },
         error: (err) => {
-          console.error('Erro ao buscar alunos', err);
           this.mostrarFeedback('Erro ao buscar alunos. Tente novamente.', 'error');
         }
       });
@@ -85,7 +84,6 @@ export class StudentListComponent implements OnInit {
           this.getStudents();
         },
         error: (err) => {
-          console.error('Erro ao deletar aluno', err);
           this.mostrarFeedback('Erro ao deletar aluno. Tente novamente.', 'error');
         }
       });

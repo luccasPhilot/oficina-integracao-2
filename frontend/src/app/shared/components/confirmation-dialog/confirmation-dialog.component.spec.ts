@@ -50,13 +50,4 @@ describe('ConfirmationDialogComponent', () => {
 
     expect(dialogRefSpy.close).toHaveBeenCalledWith(false);
   });
-
-  // it('deve ter o botão "Sim" com mat-dialog-close="true"', () => {
-  //   const confirmBtn = fixture.debugElement.query(By.css('.confirm-button'));
-
-  //   // Verificar se o atributo mat-dialog-close é true
-  //   const hasCloseAttr = confirmBtn.attributes['mat-dialog-close'];
-
-  //   expect(hasCloseAttr).toBe('true');
-  // });
 });

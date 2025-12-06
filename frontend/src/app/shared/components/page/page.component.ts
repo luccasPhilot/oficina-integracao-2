@@ -71,7 +71,6 @@ export class PageComponent {
           this.mostrarFeedback('Logout realizado com sucesso!', 'success');
         },
         error: (err) => {
-          console.error('Erro na chamada de logout para o servidor:', err);
           this.mostrarFeedback(
             `Não foi possível invalidar a sessão no servidor, mas você foi desconectado localmente.`,
             'error'

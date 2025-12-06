@@ -37,8 +37,7 @@ export class SchoolListComponent implements OnInit {
         next: (result: Escola[]) => {
           this.schoolsList = result;
         },
-        error: (err) => {
-          console.error('Erro ao buscar escolas', err);
+        error: () => {
           this.mostrarFeedback('Erro ao buscar escolas. Tente novamente.', 'error');
         }
       });
@@ -85,8 +84,7 @@ export class SchoolListComponent implements OnInit {
           this.mostrarFeedback(res.message, 'success');
           this.getSchools();
         },
-        error: (err) => {
-          console.error('Erro ao deletar Escola', err);
+        error: () => {
           this.mostrarFeedback('Erro ao deletar Escola. Tente novamente.', 'error');
         }
       });

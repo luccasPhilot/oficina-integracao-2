@@ -57,7 +57,7 @@ describe('SearchBarComponent', () => {
         component.applySearch();
 
         expect(component.dataSource[0].filtered).toBeTrue();
-        expect(component.dataSource[1].filtered).toBeFalse();   // Maria
+        expect(component.dataSource[1].filtered).toBeFalse();
         expect(component.dataSource[2].filtered).toBeTrue();
     });
 
@@ -67,14 +67,12 @@ describe('SearchBarComponent', () => {
             { name: 'Teste 2' },
         ];
 
-        // primeiro aplica filtro
         component.searchQuery = '1';
         component.applySearch();
 
         expect(component.dataSource[0].filtered).toBeFalse();
         expect(component.dataSource[1].filtered).toBeTrue();
 
-        // agora limpa o campo
         component.searchQuery = '';
         component.applySearch();
 

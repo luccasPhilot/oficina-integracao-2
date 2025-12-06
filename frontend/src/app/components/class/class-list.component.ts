@@ -48,7 +48,6 @@ export class ClassListComponent implements OnInit {
           }));
         },
         error: (err) => {
-          console.error('Erro ao buscar turmas', err);
           this.mostrarFeedback('Erro ao buscar turmas. Tente novamente.', 'error');
         }
       });
@@ -96,7 +95,6 @@ export class ClassListComponent implements OnInit {
           this.getClasses();
         },
         error: (err) => {
-          console.error('Erro ao deletar turma', err);
           this.mostrarFeedback('Erro ao deletar turma. Tente novamente.', 'error');
         }
       });

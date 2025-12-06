@@ -63,7 +63,6 @@ export class LoginPageComponent {
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          console.error('Falha no login', err);
           const message = err.error?.message || 'Erro ao tentar login. Tente novamente.';
           this.mostrarFeedback(message, 'error');
         }

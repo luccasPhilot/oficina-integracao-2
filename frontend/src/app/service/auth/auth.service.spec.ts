@@ -33,9 +33,6 @@ describe('AuthService', () => {
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  // -------------------------------------------------------------------
-  // login()
-  // -------------------------------------------------------------------
   it('deve chamar ApiService.post para login e retornar o observable', () => {
     const mockRequest = { user: 'john', password: '123' };
     const mockResponse = { token: 'abc' };
@@ -56,9 +53,6 @@ describe('AuthService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // logout()
-  // -------------------------------------------------------------------
   it('deve chamar logout e navegar para /login quando sucesso', () => {
     apiService.post.and.returnValue(of({ success: true }));
 
@@ -84,9 +78,6 @@ describe('AuthService', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
-  // -------------------------------------------------------------------
-  // isAuthenticated()
-  // -------------------------------------------------------------------
   it('deve retornar TRUE quando API retorna { isValid: true }', () => {
     apiService.get.and.returnValue(of({ isValid: true }));
 

@@ -6,15 +6,10 @@ import { SchoolService } from '../../../service/school/school.service';
 import { Escola } from '../../../shared/interfaces/escola.interface';
 import { SchoolFormDialogComponent } from './school-form-dialog.component';
 
-// ==============================
-// MOCKS
-// ==============================
-
 class SchoolServiceMock {
   addSchool(data: any) {
     return of({ id: '123', message: 'Criado', type: 'success' });
   }
-
   updateSchool(id: string, data: any) {
     return of({ id, message: 'Atualizado', type: 'success' });
   }
@@ -23,10 +18,6 @@ class SchoolServiceMock {
 class MatDialogRefMock {
   close(value?: any) { }
 }
-
-// ==============================
-// TESTES
-// ==============================
 
 describe('SchoolFormDialogComponent', () => {
   let component: SchoolFormDialogComponent;
@@ -49,7 +40,7 @@ describe('SchoolFormDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        SchoolFormDialogComponent, // standalone component
+        SchoolFormDialogComponent,
         ReactiveFormsModule
       ],
       providers: [
@@ -68,21 +59,12 @@ describe('SchoolFormDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  // =====================================
-  // TESTES BÁSICOS
-  // =====================================
-
   it('deve criar o componente', () => {
     expect(component).toBeTruthy();
   });
 
-  // =====================================
-  // FORMULÁRIO - EDIÇÃO
-  // =====================================
-
   it('deve preencher o formulário se receber dados para edição', () => {
     TestBed.resetTestingModule();
-
     TestBed.configureTestingModule({
       imports: [SchoolFormDialogComponent],
       providers: [
@@ -91,7 +73,6 @@ describe('SchoolFormDialogComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: mockSchool }
       ]
     });
-
     const fixture2 = TestBed.createComponent(SchoolFormDialogComponent);
     const component2 = fixture2.componentInstance;
     fixture2.detectChanges();
@@ -100,108 +81,106 @@ describe('SchoolFormDialogComponent', () => {
     expect(component2.schoolForm.value.estado).toBe('SP');
   });
 
-  // =====================================
-  // FORMULÁRIO - VALIDAÇÃO
-  // =====================================
-
   it('deve marcar todos os campos como touched se o formulário for inválido', () => {
     spyOn(component.schoolForm, 'markAllAsTouched');
-
     component.onSubmit();
-
     expect(component.schoolForm.markAllAsTouched).toHaveBeenCalled();
   });
 
-  // =====================================
-  // CRIAÇÃO DE ESCOLA
-  // =====================================
+  it('deve marcar erro em cada campo obrigatório individualmente', () => {
+    component.schoolForm.setValue({
+      nome: '', endereco: '', cidade: '', estado: '', telefone: '', email: ''
+    });
+    component.onSubmit();
+    const controls = component.schoolForm.controls;
+
+    expect(controls['nome'].hasError('required')).toBeTrue();
+    expect(controls['endereco'].hasError('required')).toBeTrue();
+    expect(controls['cidade'].hasError('required')).toBeTrue();
+    expect(controls['estado'].hasError('required')).toBeTrue();
+    expect(controls['telefone'].hasError('required')).toBeTrue();
+    expect(controls['email'].hasError('required')).toBeTrue();
+  });
 
   it('deve criar nova escola e fechar o diálogo ao enviar formulário válido', () => {
     const spyClose = spyOn(dialogRef, 'close');
     const spyAdd = spyOn(schoolService, 'addSchool').and.callThrough();
 
     component.schoolForm.setValue({
-      nome: 'Nova Escola',
-      endereco: 'Rua X',
-      cidade: 'Cidade Y',
-      estado: 'RJ',
-      telefone: '11988888888',
-      email: 'nova@escola.com'
+      nome: 'Nova Escola', endereco: 'Rua X', cidade: 'Cidade Y',
+      estado: 'RJ', telefone: '11988888888', email: 'nova@escola.com'
     });
 
     component.onSubmit();
 
     expect(spyAdd).toHaveBeenCalled();
-    expect(spyClose).toHaveBeenCalledWith(jasmine.objectContaining({
-      id: '123',
-      type: 'success'
-    }));
+    expect(spyClose).toHaveBeenCalledWith(jasmine.objectContaining({ id: '123', type: 'success' }));
   });
 
-  // =====================================
-  // EDIÇÃO DE ESCOLA
-  // =====================================
+  it('deve atualizar escola existente e fechar o diálogo', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [SchoolFormDialogComponent, ReactiveFormsModule],
+      providers: [
+        { provide: SchoolService, useClass: SchoolServiceMock },
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
+        { provide: MAT_DIALOG_DATA, useValue: mockSchool }
+      ]
+    });
+    const fixture2 = TestBed.createComponent(SchoolFormDialogComponent);
+    const component2 = fixture2.componentInstance;
+    fixture2.detectChanges();
 
-  // it('deve atualizar escola existente', () => {
-  //   TestBed.resetTestingModule();
+    const spyUpdate = spyOn(component2['schoolService'], 'updateSchool').and.callThrough();
+    const spyClose = spyOn(component2.dialogRef, 'close');
 
-  //   TestBed.configureTestingModule({
-  //     imports: [SchoolFormDialogComponent],
-  //     providers: [
-  //       { provide: SchoolService, useClass: SchoolServiceMock },
-  //       { provide: MatDialogRef, useClass: MatDialogRefMock },
-  //       { provide: MAT_DIALOG_DATA, useValue: mockSchool }
-  //     ]
-  //   });
+    component2.schoolForm.patchValue({ nome: 'Atualizada' });
+    component2.onSubmit();
 
-  //   const fixture2 = TestBed.createComponent(SchoolFormDialogComponent);
-  //   const component2 = fixture2.componentInstance;
-  //   fixture2.detectChanges();
+    expect(spyUpdate).toHaveBeenCalledWith('1', jasmine.objectContaining({ nome: 'Atualizada' }));
+    expect(spyClose).toHaveBeenCalled();
+  });
 
-  //   const spyClose = spyOn(component2.dialogRef, 'close');
-  //   const spyUpdate = spyOn(schoolService, 'updateSchool').and.callThrough();
-
-  //   component2.onSubmit();
-
-  //   expect(spyUpdate).toHaveBeenCalledWith('1', jasmine.any(Object));
-  //   expect(spyClose).toHaveBeenCalled();
-  // });
-
-  // =====================================
-  // ERRO NO REQUEST
-  // =====================================
-
-  it('deve mostrar feedback de erro caso ocorra falha', () => {
-    const spyAdd = spyOn(schoolService, 'addSchool').and.returnValue(
-      throwError(() => ({
-        error: { message: 'Falha gravíssima' }
-      }))
-    );
+  it('deve usar mensagens padrão se res.message e res.type forem undefined', () => {
+    spyOn(component['schoolService'], 'addSchool').and.returnValue(of({ id: '999' }));
+    const spyClose = spyOn(component.dialogRef, 'close');
 
     component.schoolForm.setValue({
-      nome: 'AAA',
-      endereco: 'BBB',
-      cidade: 'CCC',
-      estado: 'SP',
-      telefone: '1111',
-      email: 'aaa@aaa.com'
+      nome: 'Teste', endereco: 'Rua', cidade: 'Cidade', estado: 'SP', telefone: '1111', email: 'a@b.com'
     });
 
     component.onSubmit();
 
-    expect(component.feedbackType()).toBe('error');
-    expect(component.feedbackMessage()).toBe('Falha gravíssima');
+    expect(spyClose).toHaveBeenCalledWith({
+      id: '999',
+      message: 'Escola criada com sucesso!',
+      type: 'success'
+    });
   });
 
-  // =====================================
-  // TESTE DO MÉTODO mostrarFeedback
-  // =====================================
+  it('deve mostrar feedback de erro com err.error.message', () => {
+    spyOn(schoolService, 'addSchool').and.returnValue(throwError(() => ({ error: { message: 'Falha X' } })));
+    component.schoolForm.setValue({
+      nome: 'AAA', endereco: 'BBB', cidade: 'CCC', estado: 'SP', telefone: '111', email: 'a@b.com'
+    });
+    component.onSubmit();
+    expect(component.feedbackType()).toBe('error');
+    expect(component.feedbackMessage()).toBe('Falha X');
+  });
+
+  it('deve mostrar feedback de erro com fallback padrão', () => {
+    spyOn(schoolService, 'addSchool').and.returnValue(throwError(() => ({})));
+    component.schoolForm.setValue({
+      nome: 'AAA', endereco: 'BBB', cidade: 'CCC', estado: 'SP', telefone: '111', email: 'a@b.com'
+    });
+    component.onSubmit();
+    expect(component.feedbackType()).toBe('error');
+    expect(component.feedbackMessage()).toBe('Erro ao salvar Escola. Tente novamente.');
+  });
 
   it('deve definir feedbackMessage e feedbackType', () => {
     component['mostrarFeedback']('Erro X', 'error');
-
     expect(component.feedbackMessage()).toBe('Erro X');
     expect(component.feedbackType()).toBe('error');
   });
-
 });

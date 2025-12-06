@@ -26,9 +26,6 @@ describe('ClassService', () => {
     apiService = TestBed.inject(ApiService) as jasmine.SpyObj<ApiService>;
   });
 
-  // -------------------------------------------------------------------
-  // addClass()
-  // -------------------------------------------------------------------
   it('deve chamar addClass corretamente', () => {
     const request: Turma = { id: '999', identificacao: 'Turma A', escola_id: 'escola1' };
     const mockResponse = { success: true };
@@ -49,9 +46,6 @@ describe('ClassService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // getClass()
-  // -------------------------------------------------------------------
   it('deve chamar getClass com id correto', () => {
     const mockResponse = { id: '123', nome: 'Turma X' };
 
@@ -70,9 +64,6 @@ describe('ClassService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // getAllClasses()
-  // -------------------------------------------------------------------
   it('deve chamar getAllClasses corretamente', () => {
     const mockResponse = [{ id: '1' }, { id: '2' }];
 
@@ -91,9 +82,6 @@ describe('ClassService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // updateClass()
-  // -------------------------------------------------------------------
   it('deve chamar updateClass com params corretos', () => {
     const request: Turma = { id: '999', identificacao: 'Atualizada', escola_id: 'escola1' };
     const mockResponse = { updated: true };
@@ -112,9 +100,6 @@ describe('ClassService', () => {
     );
   });
 
-  // -------------------------------------------------------------------
-  // deleteClass()
-  // -------------------------------------------------------------------
   it('deve chamar deleteClass com params corretos', () => {
     const mockResponse = { deleted: true };
 

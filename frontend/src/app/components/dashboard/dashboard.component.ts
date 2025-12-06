@@ -45,7 +45,6 @@ export class DashboardComponent implements OnInit {
           this.classesList = result;
         },
         error: (err) => {
-          console.error('Erro ao buscar turmas', err);
           this.mostrarFeedback('Erro ao buscar turmas. Tente novamente.', 'error');
         }
       });
@@ -58,7 +57,6 @@ export class DashboardComponent implements OnInit {
           this.schoolsList = result;
         },
         error: (err) => {
-          console.error('Erro ao buscar escolas', err);
           this.mostrarFeedback('Erro ao buscar escolas. Tente novamente.', 'error');
         }
       });
@@ -71,7 +69,6 @@ export class DashboardComponent implements OnInit {
     //       this.representativeList = result;
     //     },
     //     error: (err) => {
-    //       console.error('Erro ao buscar representantes', err);
     //       this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
     //     }
     //   });
@@ -84,7 +81,6 @@ export class DashboardComponent implements OnInit {
           this.studentList = result;
         },
         error: (err) => {
-          console.error('Erro ao buscar alunos', err);
           this.mostrarFeedback('Erro ao buscar alunos. Tente novamente.', 'error');
         }
       });

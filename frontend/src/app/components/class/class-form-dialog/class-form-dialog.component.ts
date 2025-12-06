@@ -71,7 +71,6 @@ export class ClassFormDialogComponent implements OnInit {
 
         },
         error: (err) => {
-          console.error('Erro ao buscar escolas', err);
           this.mostrarFeedback('Erro ao buscar escolas. Tente novamente.', 'error');
         }
       });
@@ -113,7 +112,6 @@ export class ClassFormDialogComponent implements OnInit {
         this.dialogRef.close({ id: res.id, message, type });
       },
       error: (err) => {
-        console.error('Erro ao salvar turma', err);
         const message = err.error?.message || 'Erro ao salvar turma. Tente novamente.';
         this.mostrarFeedback(message, 'error');
       }

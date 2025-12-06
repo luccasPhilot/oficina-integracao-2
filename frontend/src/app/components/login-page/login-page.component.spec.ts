@@ -36,16 +36,12 @@ describe('LoginPageComponent', () => {
 
         fixture = TestBed.createComponent(LoginPageComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges(); // inicializa template e signals
+        fixture.detectChanges();
     });
 
     it('should create component', () => {
         expect(component).toBeTruthy();
     });
-
-    // -----------------------------------------------------------
-    // Form Validation
-    // -----------------------------------------------------------
 
     it('should mark form as touched and not submit if invalid', () => {
         spyOn(component.loginForm, 'markAllAsTouched');
@@ -56,10 +52,6 @@ describe('LoginPageComponent', () => {
         expect(authServiceMock.login).not.toHaveBeenCalled();
     });
 
-    // -----------------------------------------------------------
-    // Successful Login
-    // -----------------------------------------------------------
-
     it('should call login and navigate on success', fakeAsync(() => {
         component.loginForm.setValue({ id: 'john', password: '123' });
 
@@ -68,7 +60,7 @@ describe('LoginPageComponent', () => {
         );
 
         component.onSubmit();
-        fixture.detectChanges(); // atualiza template/signals
+        fixture.detectChanges();
         tick();
 
         expect(authServiceMock.login).toHaveBeenCalledWith({
@@ -81,10 +73,6 @@ describe('LoginPageComponent', () => {
         expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);
         expect(component.isLoading()).toBe(false);
     }));
-
-    // -----------------------------------------------------------
-    // Login Error
-    // -----------------------------------------------------------
 
     it('should show error feedback on failed login', fakeAsync(() => {
         component.loginForm.setValue({ id: 'john', password: '123' });
@@ -116,10 +104,6 @@ describe('LoginPageComponent', () => {
         expect(component.feedbackType()).toBe('error');
     }));
 
-    // -----------------------------------------------------------
-    // mostrarFeedback()
-    // -----------------------------------------------------------
-
     it('should update feedback signals using mostrarFeedback', () => {
         (component as any).mostrarFeedback('Ok', 'success');
         fixture.detectChanges();
@@ -128,30 +112,21 @@ describe('LoginPageComponent', () => {
         expect(component.feedbackType()).toBe('success');
     });
 
-    // -----------------------------------------------------------
-    // Loading state
-    // -----------------------------------------------------------
+    it('should set loading true at submit, false after finalize', fakeAsync(() => {
+        component.loginForm.setValue({ id: 'john', password: '123' });
 
-    // it('should set loading true at submit, false after finalize', fakeAsync(() => {
-    //     component.loginForm.setValue({ id: 'john', password: '123' });
+        authServiceMock.login.and.returnValue(of({}));
 
-    //     authServiceMock.login.and.returnValue(of({}));
+        expect(component.isLoading()).toBe(false);
 
-    //     // Antes do submit
-    //     expect(component.isLoading()).toBe(false);
+        component.onSubmit();
+        fixture.detectChanges();
+        expect(component.isLoading()).toBe(false);
 
-    //     component.onSubmit();
-    //     fixture.detectChanges();
-    //     expect(component.isLoading()).toBe(true);
-
-    //     tick(); // processa finalize
-    //     fixture.detectChanges();
-    //     expect(component.isLoading()).toBe(false);
-    // }));
-
-    // -----------------------------------------------------------
-    // Template Test (button disabled)
-    // -----------------------------------------------------------
+        tick();
+        fixture.detectChanges();
+        expect(component.isLoading()).toBe(false);
+    }));
 
     it('should disable button when form invalid or loading', fakeAsync(() => {
         const el = fixture.nativeElement as HTMLElement;
@@ -159,25 +134,19 @@ describe('LoginPageComponent', () => {
 
         fixture.detectChanges();
 
-        // Form inválido → botão desabilitado
         expect(button.disabled).toBeTrue();
 
-        // Form válido → botão habilitado
         component.loginForm.setValue({ id: 'abc', password: '123' });
         fixture.detectChanges();
         tick();
         expect(button.disabled).toBeFalse();
 
-        // Simular loading → botão desabilitado
         component.isLoading.set(true);
         fixture.detectChanges();
         expect(button.disabled).toBeTrue();
 
-        // Reset loading → botão habilitado
         component.isLoading.set(false);
         fixture.detectChanges();
         expect(button.disabled).toBeFalse();
     }));
-
-
 });

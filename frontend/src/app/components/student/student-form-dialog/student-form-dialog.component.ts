@@ -69,7 +69,6 @@ export class StudentFormDialogComponent implements OnInit {
         this.classesList = result;
       },
       error: (err) => {
-        console.error('Erro ao buscar turmas', err);
         this.mostrarFeedback('Erro ao buscar turmas. Tente novamente.', 'error');
       },
     });
@@ -110,7 +109,6 @@ export class StudentFormDialogComponent implements OnInit {
         this.dialogRef.close({ message, type });
       },
       error: (err) => {
-        console.error('Erro ao salvar aluno', err);
         const message = err.error?.message || 'Erro ao salvar aluno. Tente novamente.';
         this.mostrarFeedback(message, 'error');
       },

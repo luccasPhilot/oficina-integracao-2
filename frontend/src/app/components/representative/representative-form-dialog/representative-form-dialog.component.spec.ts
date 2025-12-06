@@ -27,7 +27,6 @@ describe('RepresentativeFormDialogComponent', () => {
   };
 
   beforeEach(() => {
-
     representativeServiceMock = jasmine.createSpyObj('RepresentativeService', [
       'addRepresentative',
       'updateRepresentative'
@@ -55,7 +54,7 @@ describe('RepresentativeFormDialogComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('deve inicializar o formulário vazio quando NÃO há data', () => {
+  it('deve inicializar o formulário vazio quando não há data', () => {
     expect(component.representativeForm.value).toEqual({
       nome: '',
       cargo: '',
@@ -64,7 +63,7 @@ describe('RepresentativeFormDialogComponent', () => {
     });
   });
 
-  it('deve preencher o formulário quando houver data no MAT_DIALOG_DATA', () => {
+  it('deve preencher o formulário quando houver data', () => {
     TestBed.resetTestingModule();
 
     TestBed.configureTestingModule({
@@ -101,7 +100,13 @@ describe('RepresentativeFormDialogComponent', () => {
     expect(component.schoolsList).toEqual(mockSchools);
   });
 
-  it('getSchools deve registrar erro e disparar feedback quando falhar', () => {
+  it('getSchools deve lidar com lista vazia', () => {
+    schoolServiceMock.getAllSchools.and.returnValue(of([]));
+    component.getSchools();
+    expect(component.schoolsList).toEqual([]);
+  });
+
+  it('getSchools deve disparar feedback quando falhar', () => {
     schoolServiceMock.getAllSchools.and.returnValue(
       throwError(() => ({ error: 'erro' }))
     );
@@ -116,7 +121,7 @@ describe('RepresentativeFormDialogComponent', () => {
     );
   });
 
-  it('addSchool deve abrir dialog e atualizar escola_id e feedback', () => {
+  it('addSchool deve abrir dialog e atualizar escola_id e feedback quando houver retorno', () => {
     const resultData = {
       id: '99',
       message: 'Escola adicionada',
@@ -136,6 +141,19 @@ describe('RepresentativeFormDialogComponent', () => {
     expect(component.feedbackMessage()).toBe('Escola adicionada');
     expect(component.feedbackType()).toBe('success');
     expect(component.getSchools).toHaveBeenCalled();
+  });
+
+  it('addSchool não deve fazer nada quando afterClosed retorna null', () => {
+    dialogMock.open.and.returnValue({
+      afterClosed: () => of(null)
+    } as any);
+
+    spyOn(component, 'getSchools');
+
+    component.addSchool();
+
+    expect(component.getSchools).not.toHaveBeenCalled();
+    expect(component.feedbackMessage()).toBe('');
   });
 
   it('onSubmit deve marcar campos como tocados quando inválido', () => {
@@ -168,6 +186,24 @@ describe('RepresentativeFormDialogComponent', () => {
     });
   });
 
+  it('onSubmit deve criar representante usando mensagens fallback quando API não retorna message/type', () => {
+    representativeServiceMock.addRepresentative.and.returnValue(of({}));
+
+    component.representativeForm.patchValue({
+      nome: 'Teste',
+      cargo: '',
+      telefone: '',
+      escola_id: '1'
+    });
+
+    component.onSubmit();
+
+    expect(dialogRefMock.close).toHaveBeenCalledWith({
+      message: 'Representante criado com sucesso!',
+      type: 'success'
+    });
+  });
+
   it('onSubmit deve atualizar representante quando houver data', () => {
     TestBed.resetTestingModule();
 
@@ -196,6 +232,33 @@ describe('RepresentativeFormDialogComponent', () => {
 
     expect(dialogRefMock.close).toHaveBeenCalledWith({
       message: 'Atualizado!',
+      type: 'success'
+    });
+  });
+
+  it('onSubmit deve usar fallback quando updateRepresentative não retorna message/type', () => {
+    TestBed.resetTestingModule();
+
+    TestBed.configureTestingModule({
+      imports: [RepresentativeFormDialogComponent],
+      providers: [
+        { provide: RepresentativeService, useValue: representativeServiceMock },
+        { provide: SchoolService, useValue: schoolServiceMock },
+        { provide: MatDialog, useValue: dialogMock },
+        { provide: MatDialogRef, useValue: dialogRefMock },
+        { provide: MAT_DIALOG_DATA, useValue: mockData }
+      ]
+    });
+
+    const fixture = TestBed.createComponent(RepresentativeFormDialogComponent);
+    const comp = fixture.componentInstance;
+
+    representativeServiceMock.updateRepresentative.and.returnValue(of({}));
+
+    comp.onSubmit();
+
+    expect(dialogRefMock.close).toHaveBeenCalledWith({
+      message: 'Representante atualizado com sucesso!',
       type: 'success'
     });
   });

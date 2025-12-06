@@ -10,7 +10,6 @@ describe('ClassFormDialogComponent', () => {
   let component: ClassFormDialogComponent;
   let fixture: ComponentFixture<ClassFormDialogComponent>;
 
-  // Mocks
   const mockDialogRef = {
     close: jasmine.createSpy('close')
   };
@@ -48,7 +47,6 @@ describe('ClassFormDialogComponent', () => {
   }
 
   beforeEach(() => {
-    // limpa os spies
     mockDialogRef.close.calls.reset();
     mockClassService.addClass.calls.reset();
     mockClassService.updateClass.calls.reset();
@@ -56,10 +54,6 @@ describe('ClassFormDialogComponent', () => {
     mockSchoolService.getAllSchools.calls.reset();
     mockSchoolService.getAllSchools.and.returnValue(of([]));
   });
-
-  // -----------------------
-  // TESTES
-  // -----------------------
 
   it('deve criar o componente', () => {
     setup();
@@ -111,7 +105,25 @@ describe('ClassFormDialogComponent', () => {
 
     component.addSchool();
 
-    expect(mockDialog.open).toHaveBeenCalledWith(SchoolFormDialogComponent, jasmine.any(Object));
+    expect(mockDialog.open).toHaveBeenCalledWith(
+      SchoolFormDialogComponent,
+      jasmine.any(Object)
+    );
+  });
+
+  it('deve atualizar a escola quando addSchool retorna dados', () => {
+    mockDialog.open.and.returnValue({
+      afterClosed: () => of({ id: '99', message: 'OK', type: 'success' })
+    });
+
+    setup();
+
+    component.addSchool();
+
+    expect(component.classForm.value.escola_id).toBe('99');
+    expect(component.feedbackMessage()).toBe('OK');
+    expect(component.feedbackType()).toBe('success');
+    expect(mockSchoolService.getAllSchools).toHaveBeenCalled();
   });
 
   it('deve chamar addClass ao enviar formulário para novo registro', () => {
@@ -147,6 +159,22 @@ describe('ClassFormDialogComponent', () => {
     expect(mockClassService.updateClass).toHaveBeenCalledWith('7', {
       identificacao: 'Atualizado',
       escola_id: '2'
+    });
+  });
+
+  it('deve usar mensagem padrão quando updateClass não retorna message/type', () => {
+    setup({ id: '44', identificacao: 'Y', escola_id: '3' });
+
+    component.classForm.setValue({ identificacao: 'Z', escola_id: '4' });
+
+    mockClassService.updateClass.and.returnValue(of({ id: '44' }));
+
+    component.onSubmit();
+
+    expect(mockDialogRef.close).toHaveBeenCalledWith({
+      id: '44',
+      message: 'Turma atualizada com sucesso!',
+      type: 'success'
     });
   });
 

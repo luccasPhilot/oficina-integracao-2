@@ -117,7 +117,6 @@ export class RepresentativeListComponent implements OnInit {
     //       this.representativesList = result;
     //     },
     //     error: (err) => {
-    //       console.error('Erro ao buscar representantes', err);
     //       this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
     //     }
     //   });
@@ -167,7 +166,6 @@ export class RepresentativeListComponent implements OnInit {
           this.getRepresentatives();
         },
         error: (err) => {
-          console.error('Erro ao deletar representante', err);
           this.mostrarFeedback('Erro ao deletar representante. Tente novamente.', 'error');
         }
       });

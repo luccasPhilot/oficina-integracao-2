@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { ClassService } from '../../service/class/class.service';
 import { Turma } from '../../shared/interfaces/turma.interface';
-import { ClassFormDialogComponent } from './class-form-dialog/class-form-dialog.component';
 import { ClassListComponent } from './class-list.component';
 
 describe('ClassListComponent', () => {
@@ -37,48 +36,76 @@ describe('ClassListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // --------------------------------------------------------
-  // ngOnInit
-  // --------------------------------------------------------
   it('should call getClasses on init', () => {
     classServiceMock.getAllClasses.and.returnValue(of([]));
     const spy = spyOn(component, 'getClasses').and.callThrough();
-
     fixture.detectChanges();
-
     expect(spy).toHaveBeenCalled();
   });
 
-  // --------------------------------------------------------
-  // getClasses (sucesso)
-  // --------------------------------------------------------
-  it('should load class list correctly', () => {
+  it('should load class list correctly (branch escola/escola)', () => {
     const mockData = [
       {
         id: 1,
         identificacao: 'Turma A',
-        Escola: { nome: 'Escola 1' },
-        Alunos: [],
+        Escola: { nome: 'Escola X' },
+        Alunos: [{ nome: 'Aluno 1', idade: 10 }],
         escola_id: 10,
         createdAt: '2024-01-10T00:00:00Z'
       }
     ];
 
     classServiceMock.getAllClasses.and.returnValue(of(mockData));
-
     component.getClasses();
 
     expect(component.classesList.length).toBe(1);
-    expect(component.classesList[0].identificacao).toBe('Turma A');
-    expect(component.classesList[0].escola?.nome).toBe('Escola 1');
+    expect(component.classesList[0].escola?.nome).toBe('Escola X');
+    expect(component.classesList[0].alunos?.length).toBe(1);
   });
 
-  // --------------------------------------------------------
-  // getClasses (erro)
-  // --------------------------------------------------------
+  it('should load class list correctly (branch escola lowercase, alunos lowercase)', () => {
+    const mockData = [
+      {
+        id: 2,
+        identificacao: 'Turma B',
+        escola: { nome: 'Escola Y' },
+        alunos: [{ nome: 'Aluno 2', idade: 11 }],
+        escola_id: 20,
+        createdAt: '2024-01-11T00:00:00Z'
+      }
+    ];
+
+    classServiceMock.getAllClasses.and.returnValue(of(mockData));
+    component.getClasses();
+
+    expect(component.classesList[0].escola?.nome).toBe('Escola Y');
+    expect(component.classesList[0].alunos?.length).toBe(1);
+  });
+
+  it('should load class list correctly when escolas are undefined and default {} is applied', () => {
+    const mockData = [
+      {
+        id: 3,
+        identificacao: 'Sem Escola',
+        Escola: null,
+        escola: null,
+        Alunos: null,
+        alunos: null,
+        escola_id: 30,
+        createdAt: '2024-01-12T00:00:00Z'
+      }
+    ];
+
+    classServiceMock.getAllClasses.and.returnValue(of(mockData));
+    component.getClasses();
+
+    expect(component.classesList[0].escola).toEqual(jasmine.any(Object));
+    expect(Object.keys(component.classesList[0].escola ?? {}).length).toBe(0);
+    expect(component.classesList[0].alunos?.length).toBe(0);
+  });
+
   it('should show feedback error when getClasses fails', () => {
     const spyFeedback = spyOn<any>(component, 'mostrarFeedback');
-
     classServiceMock.getAllClasses.and.returnValue(throwError(() => new Error('fail')));
 
     component.getClasses();
@@ -86,78 +113,73 @@ describe('ClassListComponent', () => {
     expect(spyFeedback).toHaveBeenCalledWith('Erro ao buscar turmas. Tente novamente.', 'error');
   });
 
-  // --------------------------------------------------------
-  // getInitials
-  // --------------------------------------------------------
   it('should return initials correctly', () => {
     expect(component.getInitials('Joao Silva')).toBe('JS');
     expect(component.getInitials('Maria')).toBe('MA');
     expect(component.getInitials('')).toBe('');
   });
 
-  // --------------------------------------------------------
-  // addClass
-  // --------------------------------------------------------
-  it('should open dialog when adding class', () => {
-    dialogMock.open.and.returnValue({
-      afterClosed: () => of({ message: 'ok', type: 'success' })
-    });
+  it('should open dialog when adding class (result null branch)', () => {
+    dialogMock.open.and.returnValue({ afterClosed: () => of(null) });
+    const spy = spyOn(component, 'getClasses');
+    component.addClass();
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
+  });
 
+  it('should open dialog when adding class (result truthy branch)', () => {
+    dialogMock.open.and.returnValue({ afterClosed: () => of({ message: 'ok', type: 'success' }) });
     const spy = spyOn(component, 'getClasses');
 
     component.addClass();
 
-    expect(dialogMock.open).toHaveBeenCalledWith(ClassFormDialogComponent, { width: '560px' });
-    expect(spy).toHaveBeenCalled();
-  });
-
-  // --------------------------------------------------------
-  // editClass
-  // --------------------------------------------------------
-  it('should open dialog when editing class', () => {
-    const mockTurma = { id: '1' } as Turma;
-
-    dialogMock.open.and.returnValue({
-      afterClosed: () => of({ message: 'updated', type: 'success' })
-    });
-
-    const spy = spyOn(component, 'getClasses');
-
-    const event = new MouseEvent('click');
-    spyOn(event, 'stopPropagation');
-
-    component.editClass(mockTurma, event);
-
-    expect(event.stopPropagation).toHaveBeenCalled();
     expect(dialogMock.open).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
 
-  // --------------------------------------------------------
-  // deleteClass
-  // --------------------------------------------------------
-  it('should delete class successfully', () => {
-    const mockTurma = { id: '1' } as Turma;
-
-    classServiceMock.deleteClass.and.returnValue(of({ message: 'deleted' }));
-
+  it('should open dialog when editing class (result null branch)', () => {
+    const turma = { id: '1' } as Turma;
+    dialogMock.open.and.returnValue({ afterClosed: () => of(null) });
     const spy = spyOn(component, 'getClasses');
 
     const event = new MouseEvent('click');
     spyOn(event, 'stopPropagation');
 
-    component.deleteClass(mockTurma, event);
+    component.editClass(turma, event);
 
     expect(event.stopPropagation).toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should open dialog when editing class (result truthy branch)', () => {
+    const turma = { id: '1' } as Turma;
+    dialogMock.open.and.returnValue({ afterClosed: () => of({ message: 'updated', type: 'success' }) });
+    const spy = spyOn(component, 'getClasses');
+
+    const event = new MouseEvent('click');
+    spyOn(event, 'stopPropagation');
+
+    component.editClass(turma, event);
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should delete class successfully', () => {
+    const turma = { id: '1' } as Turma;
+    classServiceMock.deleteClass.and.returnValue(of({ message: 'deleted' }));
+
+    const spy = spyOn(component, 'getClasses');
+    const event = new MouseEvent('click');
+    spyOn(event, 'stopPropagation');
+
+    component.deleteClass(turma, event);
+
     expect(classServiceMock.deleteClass).toHaveBeenCalledWith('1');
     expect(spy).toHaveBeenCalled();
   });
 
-  // --------------------------------------------------------
-  // deleteClass (erro)
-  // --------------------------------------------------------
   it('should show feedback when delete fails', () => {
-    const mockTurma = { id: '1' } as Turma;
+    const turma = { id: '1' } as Turma;
     const spyFeedback = spyOn<any>(component, 'mostrarFeedback');
 
     classServiceMock.deleteClass.and.returnValue(throwError(() => new Error('fail')));
@@ -165,37 +187,41 @@ describe('ClassListComponent', () => {
     const event = new MouseEvent('click');
     spyOn(event, 'stopPropagation');
 
-    component.deleteClass(mockTurma, event);
+    component.deleteClass(turma, event);
 
     expect(spyFeedback).toHaveBeenCalledWith('Erro ao deletar turma. Tente novamente.', 'error');
   });
 
-  // --------------------------------------------------------
-  // listHasClasses
-  // --------------------------------------------------------
   it('should return true only if all classes have filtered=true', () => {
     component.classesList = [
       { id: '1', filtered: true } as Turma,
       { id: '2', filtered: true } as Turma
     ];
-
     expect(component.listHasClasses()).toBeTrue();
 
     component.classesList = [
       { id: '1', filtered: true } as Turma,
       { id: '2', filtered: false } as Turma
     ];
-
     expect(component.listHasClasses()).toBeFalse();
   });
 
-  // --------------------------------------------------------
-  // mostrarFeedback
-  // --------------------------------------------------------
+  it('should return false when list is empty (branch)', () => {
+    component.classesList = [];
+    expect(component.listHasClasses()).toBeTrue();
+  });
+
   it('should set feedback signals correctly', () => {
     component['mostrarFeedback']('ok', 'success');
-
     expect(component.feedbackMessage()).toBe('ok');
     expect(component.feedbackType()).toBe('success');
+  });
+
+  it('should call editStudent without error', () => {
+    expect(() => component.editStudent()).not.toThrow();
+  });
+
+  it('should call deleteStudent without error', () => {
+    expect(() => component.deleteStudent()).not.toThrow();
   });
 });

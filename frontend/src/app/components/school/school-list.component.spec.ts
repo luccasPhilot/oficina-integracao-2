@@ -6,7 +6,6 @@ import { SchoolService } from '../../service/school/school.service';
 import { Escola } from '../../shared/interfaces/escola.interface';
 import { SchoolListComponent } from './school-list.component';
 
-// Mock Dialog
 class MatDialogMock {
   open() {
     return {
@@ -15,7 +14,6 @@ class MatDialogMock {
   }
 }
 
-// Mock SchoolService
 class SchoolServiceMock {
   getAllSchools(): Observable<Escola[]> {
     return of([] as Escola[]);

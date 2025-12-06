@@ -28,12 +28,9 @@ describe('RepresentativeListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  // -----------------------------
-  // ngOnInit / getRepresentatives
-  // -----------------------------
   it('deve carregar os representantes no ngOnInit', () => {
     component.ngOnInit();
-    expect(component.representativesList.length).toBe(5); // mock possui 5 itens
+    expect(component.representativesList.length).toBe(5);
   });
 
   it('getRepresentatives deve preencher a lista com os mocks', () => {
@@ -41,9 +38,6 @@ describe('RepresentativeListComponent', () => {
     expect(component.representativesList).toEqual(component.mockRepresentantes);
   });
 
-  // -----------------------------
-  // getInitials
-  // -----------------------------
   it('getInitials deve retornar iniciais corretas (nome composto)', () => {
     expect(component.getInitials('Maria Silva')).toBe('MS');
   });
@@ -56,9 +50,6 @@ describe('RepresentativeListComponent', () => {
     expect(component.getInitials('')).toBe('');
   });
 
-  // -----------------------------
-  // addRepresentative
-  // -----------------------------
   it('addRepresentative deve abrir o dialog e aplicar feedback', () => {
     const dialogRefMock = {
       afterClosed: () => of({ message: 'Sucesso!', type: 'success' })
@@ -76,9 +67,6 @@ describe('RepresentativeListComponent', () => {
     expect(component.getRepresentatives).toHaveBeenCalled();
   });
 
-  // -----------------------------
-  // editRepresentative
-  // -----------------------------
   it('editRepresentative deve abrir o dialog com dados e aplicar feedback', () => {
     const fakeItem = component.mockRepresentantes[0];
 
@@ -100,9 +88,6 @@ describe('RepresentativeListComponent', () => {
     expect(component.getRepresentatives).toHaveBeenCalled();
   });
 
-  // -----------------------------
-  // deleteRepresentative
-  // -----------------------------
   it('deleteRepresentative deve deletar e aplicar feedback de sucesso', () => {
     const fakeItem = component.mockRepresentantes[0];
 
@@ -138,9 +123,6 @@ describe('RepresentativeListComponent', () => {
     expect(component.feedbackType()).toBe('error');
   });
 
-  // -----------------------------
-  // listHasRepresentatives
-  // -----------------------------
   it('listHasRepresentatives deve retornar true se todos estiverem filtrados', () => {
     component.representativesList = [
       { filtered: true } as any,

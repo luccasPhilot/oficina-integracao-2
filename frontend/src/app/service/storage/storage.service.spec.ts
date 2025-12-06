@@ -13,7 +13,6 @@ describe('StorageService', () => {
 
     service = TestBed.inject(StorageService);
 
-    // Limpa o sessionStorage antes de cada teste
     sessionStorage.clear();
   });
 

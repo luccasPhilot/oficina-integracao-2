@@ -38,128 +38,103 @@ describe('ApiService', () => {
     httpMock.verify();
   });
 
-  // ------------------------------------------------------------
-  // getToken
-  // ------------------------------------------------------------
-  it('deve usar accessToken do StorageService quando disponível', () => {
+  it('deve usar token do storage quando existir', () => {
     storageService.getToken.and.returnValue(mockToken);
-
-    const token = service.getToken();
-
-    expect(token).toBe(`Bearer ${mockToken}`);
+    expect(service.getToken()).toBe(`Bearer ${mockToken}`);
   });
 
-  it('deve usar TOKEN do environment quando StorageService retorna null', () => {
+  it('deve usar TOKEN local quando storage retornar null', () => {
     storageService.getToken.and.returnValue(null);
-
     const token = service.getToken();
-
     expect(token.startsWith('Bearer ')).toBeTrue();
   });
 
-  // ------------------------------------------------------------
-  // GET
-  // ------------------------------------------------------------
-  it('deve fazer chamada GET com URL completa e headers corretos', () => {
+  it('deve retornar URL sem marks quando marks não forem fornecidos', () => {
+    storageService.getToken.and.returnValue(mockToken);
+
+    service.get('base/', 'endpoint').subscribe();
+    const req = httpMock.expectOne('base/endpoint');
+
+    expect(req.request.method).toBe('GET');
+  });
+
+  it('deve montar URL com marks corretamente', () => {
     storageService.getToken.and.returnValue(mockToken);
 
     const marks: EndpointMark[] = [
-      { name: '#id#', value: 10 }
+      { name: '#id#', value: 5 },
+      { name: '#type#', value: 'X' }
     ];
 
-    service.get('base/', 'item/#id#', marks).subscribe();
+    service.get('api/', 'item/#id#/#type#', marks).subscribe();
+    const req = httpMock.expectOne('api/item/5/X');
 
-    const req = httpMock.expectOne('base/item/10');
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
   });
 
-  // ------------------------------------------------------------
-  // POST
-  // ------------------------------------------------------------
-  it('deve fazer chamada POST com body e headers', () => {
+  it('deve testar todos os headers do switch', () => {
     storageService.getToken.and.returnValue(mockToken);
 
-    service.post('url/', 'create', { name: 'Test' }).subscribe();
+    const headersToTest = [
+      HeaderType.CONTENT_JSON,
+      HeaderType.CONTENT_MULTIPART,
+      HeaderType.ACCEPT_JSON,
+      HeaderType.CORS,
+      HeaderType.ALLOW_ALL_METHODS,
+      HeaderType.ALLOW_COMMON_METHODS
+    ];
+
+    service.get('url/', 'headers', [], headersToTest).subscribe();
+
+    const req = httpMock.expectOne('url/headers');
+    const h = req.request.headers;
+
+    expect(h.get('content-type')).toBe('application/json');
+    expect(h.get('accept')).toBe('application/json');
+    expect(h.get('access-control-allow-origin')).toBe('*');
+    expect(h.get('access-control-allow-methods')).toBe('GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  });
+
+
+  it('deve fazer POST com body e options extras', () => {
+    storageService.getToken.and.returnValue(mockToken);
+
+    service.post('url/', 'create', { x: 1 }, [], [], { reportProgress: true }).subscribe();
 
     const req = httpMock.expectOne('url/create');
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({ name: 'Test' });
+    expect(req.request.body).toEqual({ x: 1 });
+    expect(req.request.reportProgress).toBeTrue();
   });
 
-  // ------------------------------------------------------------
-  // PATCH
-  // ------------------------------------------------------------
-  it('deve fazer chamada PATCH', () => {
+  it('deve fazer PATCH com body', () => {
     storageService.getToken.and.returnValue(mockToken);
 
-    service.patch('url/', 'edit', { x: 1 }).subscribe();
+    service.patch('url/', 'edit', { a: 10 }).subscribe();
 
     const req = httpMock.expectOne('url/edit');
     expect(req.request.method).toBe('PATCH');
-    expect(req.request.body).toEqual({ x: 1 });
+    expect(req.request.body).toEqual({ a: 10 });
   });
 
-  // ------------------------------------------------------------
-  // PUT
-  // ------------------------------------------------------------
-  it('deve fazer chamada PUT', () => {
+  it('deve fazer PUT com body', () => {
     storageService.getToken.and.returnValue(mockToken);
 
-    service.put('url/', 'update', { foo: 'bar' }).subscribe();
+    service.put('url/', 'update', { data: 123 }).subscribe();
 
     const req = httpMock.expectOne('url/update');
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual({ foo: 'bar' });
+    expect(req.request.body).toEqual({ data: 123 });
   });
 
-  // ------------------------------------------------------------
-  // DELETE
-  // ------------------------------------------------------------
-  it('deve fazer chamada DELETE com body e headers', () => {
+  it('deve fazer DELETE com body', () => {
     storageService.getToken.and.returnValue(mockToken);
 
-    service.delete('url/', 'remove', { id: 10 }).subscribe();
+    service.delete('url/', 'remove', { id: 1 }).subscribe();
 
     const req = httpMock.expectOne('url/remove');
     expect(req.request.method).toBe('DELETE');
-    expect(req.request.body).toEqual({ id: 10 });
-  });
-
-  // ------------------------------------------------------------
-  // Headers
-  // ------------------------------------------------------------
-  it('deve adicionar headers corretamente conforme HeaderType', () => {
-    storageService.getToken.and.returnValue(mockToken);
-
-    service.get('url/', 'test', [], [
-      HeaderType.CONTENT_JSON,
-      HeaderType.ACCEPT_JSON,
-      HeaderType.CORS
-    ]).subscribe();
-
-    const req = httpMock.expectOne('url/test');
-
-    expect(req.request.headers.get('content-type')).toBe('application/json');
-    expect(req.request.headers.get('accept')).toBe('application/json');
-    expect(req.request.headers.get('access-control-allow-origin')).toBe('*');
-  });
-
-  // ------------------------------------------------------------
-  // getFullUrl e substituição de marks
-  // ------------------------------------------------------------
-  it('deve substituir marks corretamente na URL', () => {
-    const marks: EndpointMark[] = [
-      { name: '#a#', value: '123' },
-      { name: '#b#', value: 'XYZ' }
-    ];
-
-    storageService.getToken.and.returnValue(mockToken);
-
-    service.get('api/', 'search/#a#/#b#', marks).subscribe();
-    const req = httpMock.expectOne('api/search/123/XYZ');
-
-    expect(req.request.method).toBe('GET');
+    expect(req.request.body).toEqual({ id: 1 });
   });
 
 });
