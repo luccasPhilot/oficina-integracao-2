@@ -1,4 +1,4 @@
-import RepresentanteService from '../services/RepresanteService.js';
+import RepresentanteService from '../services/RepresentanteService.js';
 
 export const createRepresentante = async (req, res) => {
     try {
