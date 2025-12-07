@@ -1,7 +1,7 @@
 <page [title]="'Lista de escolas'" [objectName]="'ESCOLA'" [showAddButton]="true" [showSearchBar]="true"
   [dataSource]="schoolsList" (addButtonClicked)="addSchool()">
   @if (feedbackMessage()) {
-    <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
+  <app-feedback-popup [message]="feedbackMessage()" [type]="feedbackType()"></app-feedback-popup>
   }
 
   <div class="school-list">
@@ -47,19 +47,24 @@
 
         <div class="details-section">
           <div class="details-info">
-            <p><strong>Email:</strong> {{ school.email || '-' }}</p>
-            <p><strong>Endereço:</strong> {{ school.endereco || '-' }}</p>
-            <button mat-raised-button color="primary"
-                    (click)="downloadPdf(school.id, school.nome, 'convenio')">
-              Carta Convênio
-            </button>
+            <div class="info-text">
+              <p><strong>Email:</strong> {{ school.email || '-' }}</p>
+              <p><strong>Endereço:</strong> {{ school.endereco || '-' }}</p>
+            </div>
 
-            <button mat-raised-button color="accent"
-                    (click)="downloadPdf(school.id, school.nome, 'convite')">
-              Carta Convite
-            </button>
+            <div class="action-buttons">
+              <button mat-flat-button class="btn-pdf convenio"
+                (click)="downloadPdf(school.id, school.nome, 'convenio')">
+                <mat-icon>description</mat-icon>
+                Carta Convênio
+              </button>
 
-
+              <button mat-stroked-button class="btn-pdf convite"
+                (click)="downloadPdf(school.id, school.nome, 'convite')">
+                <mat-icon>mail</mat-icon>
+                Carta Convite
+              </button>
+            </div>
           </div>
 
           <div class="details-cards">
