@@ -10,10 +10,11 @@ import { Aluno } from '../../shared/interfaces/aluno.interface';
 import { Escola } from '../../shared/interfaces/escola.interface';
 import { Representante } from '../../shared/interfaces/representante.interface';
 import { Turma } from '../../shared/interfaces/turma.interface';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [PageComponent, MatIconModule, FeedbackPopupComponent],
+  imports: [PageComponent, MatIconModule, FeedbackPopupComponent, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

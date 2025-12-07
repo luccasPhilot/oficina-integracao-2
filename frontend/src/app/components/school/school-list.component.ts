@@ -9,7 +9,7 @@ import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/f
 import { PageComponent } from '../../shared/components/page/page.component';
 import { Escola } from '../../shared/interfaces/escola.interface';
 import { SchoolFormDialogComponent } from './school-form-dialog/school-form-dialog.component';
-import {Observable} from 'rxjs'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'school-list',
@@ -119,7 +119,6 @@ export class SchoolListComponent implements OnInit {
       }
     });
   }
-
 
   private mostrarFeedback(message: string, type: 'success' | 'error'): void {
     this.feedbackMessage.set(message);

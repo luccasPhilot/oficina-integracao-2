@@ -9,6 +9,7 @@ import { StudentService } from '../../service/student/student.service';
 import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/feedback-popup.component';
 import { PageComponent } from '../../shared/components/page/page.component';
 import { DashboardComponent } from './dashboard.component';
+import { provideRouter } from '@angular/router';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -33,6 +34,7 @@ describe('DashboardComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
+        provideRouter([]),
         { provide: ClassService, useValue: classServiceMock },
         { provide: SchoolService, useValue: schoolServiceMock },
         { provide: RepresentativeService, useValue: representativeServiceMock },
