@@ -9,6 +9,7 @@ import authRoutes from "../routes/Auth.routes.js";
 import escolaRoutes from "../routes/Escola.routes.js";
 import turmaRoutes from "../routes/Turma.routes.js";
 import alunoRoutes from "../routes/Aluno.routes.js";
+import representanteRoutes from "../routes/Representante.routes.js";
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/auth", authRoutes);
 app.use("/escola", escolaRoutes);
 app.use("/turma", turmaRoutes);
 app.use("/aluno", alunoRoutes);
+app.use("/representante", representanteRoutes);
 
 export default app;

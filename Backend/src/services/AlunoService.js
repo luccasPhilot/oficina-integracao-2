@@ -6,11 +6,11 @@ const AlunoService = {
     },
 
     getAlunoById: async (id) => {
-        const turma = await AlunoRepository.findById(id);
-        if (!turma) {
+        const aluno = await AlunoRepository.findById(id);
+        if (!aluno) {
             throw new Error('Aluno não encontrado');
         }
-        return turma;
+        return aluno;
     },
 
     getAllAlunos: async (search) => {
@@ -18,19 +18,19 @@ const AlunoService = {
     },
 
     updateAluno: async (id, data) => {
-        const turma = await AlunoRepository.findById(id);
-        if (!turma) {
+        const aluno = await AlunoRepository.findById(id);
+        if (!aluno) {
             throw new Error('Aluno não encontrado');
         }
-        return await AlunoRepository.update(turma, data);
+        return await AlunoRepository.update(aluno, data);
     },
 
     deleteAluno: async (id) => {
-        const turma = await AlunoRepository.findById(id);
-        if(!turma){
+        const aluno = await AlunoRepository.findById(id);
+        if(!aluno){
             throw new Error('Aluno não encontrado');
         }
-        await AlunoRepository.remove(turma);
+        await AlunoRepository.remove(aluno);
         return {message: 'Aluno removido com sucesso'};
     },
 };
