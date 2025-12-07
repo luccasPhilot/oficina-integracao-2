@@ -70,3 +70,18 @@ export const deleteEscola = async (req, res) => {
         return res.status(404).json({message: error.message});
     }
 };
+
+export const createCartaConvite = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pdfBuffer = await EscolaService.gerarCartaConvite(id);
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename=carta-convite-escola-${id}.pdf`,
+            'Content-Length': pdfBuffer.length.toString()
+        });
+        return res.send(pdfBuffer);
+    } catch (error) {
+        return res.status(404).json({ message: error.message });
+    }
+};
