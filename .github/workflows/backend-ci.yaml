@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./Backend
 
     steps:
       - name: Checkout do código
@@ -24,6 +24,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
+          cache: "npm"
+          cache-dependency-path: ./Backend/package-lock.json
 
       - name: Instalar dependências
         run: npm ci
