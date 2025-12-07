@@ -15,7 +15,6 @@ import { HeaderType } from '../../shared/interfaces/enuns/header-type.enum';
 })
 export class ApiService {
 
-  // API Auth token
   private readonly TOKEN: string = environment.token;
 
   private readonly http = inject(HttpClient);
