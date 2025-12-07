@@ -1,6 +1,6 @@
 # Portal ELLP - Módulo de Gestão de Escolas
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Status](https://img.shields.io/badge/status-conclu%C3%ADdo-blue)
 
 Projeto desenvolvido para a disciplina de Oficina de Integração 2 (ES47C-ES71) do curso de Engenharia de Software da UTFPR, Campus Cornélio Procópio.
 
@@ -53,6 +53,66 @@ O sistema é desenvolvido com uma arquitetura moderna, com separação entre Fro
     * **Gerenciamento de Tarefas:** Trello (Kanban)
     * **Modelagem:** Astah UML
 
+## Como Executar o Projeto
+
+Para executar o software em um ambiente de desenvolvimento local, siga os passos abaixo.
+
+### Pré-requisitos
+* Node.js (v16+)
+* npm
+* Angular CLI
+* PostgreSQL (Instância ativa)
+
+### 1. Backend (Servidor)
+
+1.  Acesse a pasta do backend:
+    ```bash
+    cd backend
+    ```
+
+2.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+
+3.  **Configuração de Ambiente (.env):**
+    Crie um arquivo `.env` na raiz da pasta `backend` com as seguintes variáveis (ajuste conforme seu banco de dados):
+    ```env
+    PORT=3333
+    SECRET=sua_chave_secreta
+    DB_USER=seu_usuario
+    DB_PASS=sua_senha
+    DB_HOST=localhost
+    DB_NAME=seu_banco_de_dados
+    ```
+
+4.  **Banco de Dados:**
+    Certifique-se de que o banco de dados PostgreSQL está rodando e que as tabelas foram criadas (execute os scripts SQL localizados na pasta `database` ou as migrações).
+
+5.  Inicie o servidor:
+    ```bash
+    npm run dev
+    ```
+
+### 2. Frontend (Interface)
+
+1.  Em um novo terminal, acesse a pasta do frontend:
+    ```bash
+    cd frontend
+    ```
+
+2.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+
+3.  Inicie a aplicação:
+    ```bash
+    ng serve
+    ```
+
+4.  Acesse no navegador: `http://localhost:4200`
+
 ## Metodologia
 
 O projeto utiliza o **Scrum** como metodologia ágil de desenvolvimento. O trabalho é organizado em Sprints, com cerimônias adaptadas para a dinâmica remota da equipe, incluindo comunicação contínua via WhatsApp e reuniões semanais de planejamento e revisão aos domingos.
@@ -63,4 +123,3 @@ O projeto utiliza o **Scrum** como metodologia ágil de desenvolvimento. O traba
 * **João Pedro Correia Leite Moreira** - *Desenvolvedor*
 * **Luccas Philot Gonçalves** - *Desenvolvedor*
 * **Yuri Garcia Yoshida** - *Desenvolvedor*
-
