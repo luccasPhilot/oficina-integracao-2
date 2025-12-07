@@ -49,19 +49,30 @@
           <div class="details-info">
             <p><strong>Email:</strong> {{ school.email || '-' }}</p>
             <p><strong>Endereço:</strong> {{ school.endereco || '-' }}</p>
+            <button mat-raised-button color="primary"
+                    (click)="downloadPdf(school.id, school.nome, 'convenio')">
+              Carta Convênio
+            </button>
+
+            <button mat-raised-button color="accent"
+                    (click)="downloadPdf(school.id, school.nome, 'convite')">
+              Carta Convite
+            </button>
+
+
           </div>
-        
+
           <div class="details-cards">
             <div class="detail-card representantes">
               <div class="detail-number">{{ 0 }}</div>
               <div class="detail-label">Representantes</div>
             </div>
-        
+
             <div class="detail-card turmas">
               <div class="detail-number">{{ 0 }}</div>
               <div class="detail-label">Turmas</div>
             </div>
-        
+
             <div class="detail-card alunos">
               <div class="detail-number">{{ 0 }}</div>
               <div class="detail-label">Alunos</div>

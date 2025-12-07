@@ -9,6 +9,7 @@ import { FeedbackPopupComponent } from '../../shared/components/feedback-popup/f
 import { PageComponent } from '../../shared/components/page/page.component';
 import { Escola } from '../../shared/interfaces/escola.interface';
 import { SchoolFormDialogComponent } from './school-form-dialog/school-form-dialog.component';
+import {Observable} from 'rxjs'
 
 @Component({
   selector: 'school-list',
@@ -93,6 +94,32 @@ export class SchoolListComponent implements OnInit {
   listHasSchools(): boolean {
     return this.schoolsList.every(cls => cls.filtered === true);
   }
+
+  downloadPdf(schoolId: string, schoolName: string, type: string): void {
+    let downloadObservable: Observable<Blob>;
+    if (type === 'convenio') {
+      downloadObservable = this.schoolService.downloadSchoolPdfCartaConvenio(schoolId);
+    } else if (type === 'convite') {
+      downloadObservable = this.schoolService.downloadSchoolPdfCartaConvite(schoolId);
+    } else {
+      this.mostrarFeedback('Tipo de carta inválido.', 'error');
+      return;
+    }
+    downloadObservable.subscribe({
+      next: (blob: Blob) => {
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `${schoolName}-${type}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+        this.mostrarFeedback('Download iniciado!', 'success');
+      },
+      error: () => {
+        this.mostrarFeedback('Erro ao baixar PDF.', 'error');
+      }
+    });
+  }
+
 
   private mostrarFeedback(message: string, type: 'success' | 'error'): void {
     this.feedbackMessage.set(message);

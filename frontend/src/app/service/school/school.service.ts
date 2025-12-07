@@ -37,4 +37,18 @@ export class SchoolService {
     return this.apiService.delete(this.URL, 'escola/id', {}, [{ name: 'id', value: schoolId }])
       .pipe(take(1));
   }
+
+  public downloadSchoolPdfCartaConvenio(schoolId: string): Observable<Blob> {
+    return this.apiService.get(this.URL, 'escola/id/carta-convenio', [{ name: 'id', value: schoolId }], undefined, {
+      withCredentials: true,
+      responseType: 'blob'
+    }).pipe(take(1));
+  }
+
+  public downloadSchoolPdfCartaConvite(schoolId: string): Observable<Blob> {
+    return this.apiService.get(this.URL, 'escola/id/carta-convite', [{ name: 'id', value: schoolId }], undefined, {
+      withCredentials: true,
+      responseType: 'blob'
+    }).pipe(take(1));
+  }
 }
