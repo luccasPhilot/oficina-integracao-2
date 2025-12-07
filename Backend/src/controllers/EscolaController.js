@@ -30,16 +30,6 @@ export const getAllTurmasByEscolaId = async (req, res) => {
     }
 };
 
-// export const getAllAlunos = async (req, res) => {
-//     try {
-//         const {id} = req.params;
-//         const escolas = await EscolaService.getAllEscolas(search);
-//         return res.status(200).json(escolas);
-//     } catch (error) {
-//         return res.status(404).json({error: error.message});
-//     }
-// };
-
 export const getEscolaById = async (req, res) => {
     try {
         const {id} = req.params;
