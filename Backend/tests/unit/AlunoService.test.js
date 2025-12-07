@@ -3,7 +3,7 @@ import AlunoRepository from "../../src/repositories/AlunoRepository.js";
 
 jest.mock("../../src/repositories/AlunoRepository.js");
 
-describe("AlunoService unit tests", () => {
+describe("Unitário - AlunoService", () => {
     const fakeAluno = {id: "1", nome: "João", idade: 18, turma_id: "1"};
 
     beforeEach(() => {
