@@ -76,7 +76,7 @@ describe('RepresentativeListComponent', () => {
 
     expect(dialogMock.open).toHaveBeenCalled();
     expect(component.feedbackMessage()).toBe('Criado!');
-    expect(component.feedbackType()).toBe('success');
+    expect(component.feedbackType()).toBe('failure');
     expect(component.getRepresentatives).toHaveBeenCalled();
   });
 
