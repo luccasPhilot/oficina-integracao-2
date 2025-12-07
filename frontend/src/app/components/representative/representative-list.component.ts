@@ -19,85 +19,6 @@ import { RepresentativeFormDialogComponent } from './representative-form-dialog/
 export class RepresentativeListComponent implements OnInit {
   representativesList: Representante[] = [];
 
-
-  mockRepresentantes: Representante[] = [
-    {
-      id: 'R0000001',
-      nome: 'Mariana Silva Costa',
-      cargo: 'Coordenadora',
-      telefone: '(11) 91234-5678',
-      escola_id: 'E0000001',
-      createdAt: '2025-01-10T08:00:00.000Z',
-      escola: {
-        id: 'E0000001',
-        nome: 'Escola Estadual Monte Castelo',
-        cidade: 'São Paulo',
-        estado: 'SP',
-        createdAt: '2024-02-15T10:00:00.000Z',
-      },
-    },
-    {
-      id: 'R0000002',
-      nome: 'Carlos Henrique dos Santos',
-      cargo: 'Vice-diretor',
-      telefone: '(21) 99876-5432',
-      escola_id: 'E0000002',
-      createdAt: '2025-01-12T09:15:00.000Z',
-      escola: {
-        id: 'E0000002',
-        nome: 'Colégio Municipal Paulo Freire',
-        cidade: 'Rio de Janeiro',
-        estado: 'RJ',
-        createdAt: '2024-03-20T11:00:00.000Z',
-      },
-    },
-    {
-      id: 'R0000003',
-      nome: 'Fernanda Almeida Lopes',
-      cargo: 'Professora responsável',
-      telefone: '(31) 98765-4321',
-      escola_id: 'E0000003',
-      createdAt: '2025-02-02T14:30:00.000Z',
-      escola: {
-        id: 'E0000003',
-        nome: 'Centro Educacional Horizonte',
-        cidade: 'Belo Horizonte',
-        estado: 'MG',
-        createdAt: '2024-05-12T09:45:00.000Z',
-      },
-    },
-    {
-      id: 'R0000004',
-      nome: 'João Pedro Almeida',
-      cargo: 'Representante estudantil',
-      telefone: '(41) 91234-9999',
-      escola_id: 'E0000004',
-      createdAt: '2025-03-01T12:00:00.000Z',
-      escola: {
-        id: 'E0000004',
-        nome: 'Instituto Educacional Aurora',
-        cidade: 'Curitiba',
-        estado: 'PR',
-        createdAt: '2024-07-21T13:00:00.000Z',
-      },
-    },
-    {
-      id: 'R0000005',
-      nome: 'Luciana Torres',
-      cargo: 'Diretora',
-      telefone: '(51) 93456-7788',
-      escola_id: 'E0000005',
-      createdAt: '2025-03-25T16:20:00.000Z',
-      escola: {
-        id: 'E0000005',
-        nome: 'Escola Técnica Novo Horizonte',
-        cidade: 'Porto Alegre',
-        estado: 'RS',
-        createdAt: '2024-09-01T10:00:00.000Z',
-      },
-    },
-  ];
-
   readonly panelOpenState = signal(false);
 
   feedbackMessage = signal<string>('');
@@ -111,17 +32,15 @@ export class RepresentativeListComponent implements OnInit {
   }
 
   getRepresentatives(): void {
-    // this.representativesService.getAllRepresentatives()
-    //   .subscribe({
-    //     next: (result: Representante[]) => {
-    //       this.representativesList = result;
-    //     },
-    //     error: (err) => {
-    //       this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
-    //     }
-    //   });
-
-    this.representativesList = this.mockRepresentantes;
+    this.representativesService.getAllRepresentatives()
+      .subscribe({
+        next: (result: Representante[]) => {
+          this.representativesList = result;
+        },
+        error: (err) => {
+          this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
+        }
+      });
   }
 
   getInitials(fullName: string): string {

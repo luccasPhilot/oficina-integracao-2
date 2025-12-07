@@ -63,15 +63,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getRepresentatives(): void {
-    // this.representativeService.getAllRepresentatives()
-    //   .subscribe({
-    //     next: (result: Representante[]) => {
-    //       this.representativeList = result;
-    //     },
-    //     error: (err) => {
-    //       this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
-    //     }
-    //   });
+    this.representativeService.getAllRepresentatives()
+      .subscribe({
+        next: (result: Representante[]) => {
+          this.representativeList = result;
+        },
+        error: (err) => {
+          this.mostrarFeedback('Erro ao buscar representantes. Tente novamente.', 'error');
+        }
+      });
   }
 
   getStudents(): void {
