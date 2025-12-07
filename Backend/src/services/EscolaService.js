@@ -19,7 +19,7 @@ const EscolaService = {
     getEscolaById: async (id) => {
         const escola = await EscolaRepository.findById(id);
         if (!escola) {
-            throw new Error('Escola não encontrada');
+            throw new Error("Escola não encontrada");
         }
         return escola;
     },
@@ -35,7 +35,7 @@ const EscolaService = {
     updateEscola: async (id, data) => {
         const escola = await EscolaRepository.findById(id);
         if (!escola) {
-            throw new Error('Escola não encontrada');
+            throw new Error("Escola não encontrada")
         }
         return await EscolaRepository.update(escola, data);
     },
@@ -43,7 +43,7 @@ const EscolaService = {
     deleteEscola: async (id) => {
         const escola = await EscolaRepository.findById(id);
         if(!escola){
-            throw new Error('Escola não encontrada');
+            throw new Error("Escola não encontrada")
         }
         await EscolaRepository.remove(escola);
         return {message: 'Escola removida com sucesso'};

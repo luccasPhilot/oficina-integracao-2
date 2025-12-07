@@ -1,7 +1,7 @@
-import AlunoService from "../src/services/AlunoService.js";
-import AlunoRepository from "../src/repositories/AlunoRepository.js";
+import AlunoService from "../../src/services/AlunoService.js";
+import AlunoRepository from "../../src/repositories/AlunoRepository.js";
 
-jest.mock("../src/repositories/AlunoRepository.js");
+jest.mock("../../src/repositories/AlunoRepository.js");
 
 describe("AlunoService unit tests", () => {
     const fakeAluno = {id: "1", nome: "João", idade: 18, turma_id: "1"};
@@ -56,7 +56,7 @@ describe("AlunoService unit tests", () => {
         const result = await AlunoService.deleteAluno("1");
         expect(AlunoRepository.findById).toHaveBeenCalledWith("1");
         expect(AlunoRepository.remove).toHaveBeenCalledWith(fakeAluno);
-        expect(result).toEqual({message: "Aluno removida com sucesso"});
+        expect(result).toEqual({message: "Aluno removido com sucesso"});
     });
 
     it("deleteAluno lança erro se aluno não encontrado", async () => {

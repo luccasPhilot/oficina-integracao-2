@@ -31,7 +31,7 @@ const AlunoService = {
             throw new Error('Aluno não encontrado');
         }
         await AlunoRepository.remove(turma);
-        return {message: 'Aluno removida com sucesso'};
+        return {message: 'Aluno removido com sucesso'};
     },
 };
 

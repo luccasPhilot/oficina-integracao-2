@@ -4,9 +4,9 @@ export const createTurma = async (req, res) => {
     try {
         const newData = req.body;
         const turma = await TurmaService.createTurma(newData);
-        return res.status(200).json(turma);
+        return res.status(201).json(turma);
     }catch (error){
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };
 
@@ -16,7 +16,7 @@ export const getAllTurmas = async (req, res) => {
         const turmas = await TurmaService.getAllTurmas(search);
         return res.status(200).json(turmas);
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };
 
@@ -26,7 +26,7 @@ export const getTurmaById = async (req, res) => {
         const turma = await TurmaService.getTurmaById(id);
         return res.status(200).json(turma);
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };
 
@@ -37,16 +37,16 @@ export const updateTurma = async (req, res) => {
         const updatedTurma = await TurmaService.updateTurma(id, data);
         return res.status(200).json(updatedTurma);
     } catch (error) {
-        return res.status(404).json({ message: error.message });
+        return res.status(404).json({error: error.message});
     }
 };
 
 export const deleteTurma = async (req, res) => {
     try {
         const {id} = req.params;
-        await TurmaService.deleteTurma(id);
-        return res.status(200).json({message: 'Turma apagada' });
+        const result = await TurmaService.deleteTurma(id);
+        return res.status(200).json(result);
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };

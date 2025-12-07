@@ -1,18 +1,18 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { authenticate, verifyToken } from "../src/services/AuthService.js";
-import * as AdminService from "../src/services/AdminService.js";
+import { authenticate, verifyToken } from "../../src/services/AuthService.js";
+import * as AdminService from "../../src/services/AdminService.js";
 
-jest.mock("../src/services/AdminService.js");
+jest.mock("../../src/services/AdminService.js");
 
-jest.mock("../src/utils/Enviroments.js", () => ({
+jest.mock("../../src/utils/Enviroments.js", () => ({
     getSecretOrEnv: jest.fn((key) => {
         if (key === "SECRET") return "testesecret";
         if (key === "TOKEN_EXPIRATION") return "3600000";
     }),
 }));
 
-describe("AuthService unit tests", () =>{
+describe("Unitário - AuthService", () =>{
     const fakeAdmin = {id: "1", usuario: "admin", senha: ""};
 
     beforeAll(async () =>{

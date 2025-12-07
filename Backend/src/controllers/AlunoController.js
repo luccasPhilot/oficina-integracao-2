@@ -4,9 +4,9 @@ export const createAluno = async (req, res) => {
     try {
         const newData = req.body;
         const turma = await AlunoService.createAluno(newData);
-        return res.status(200).json(turma);
+        return res.status(201).json(turma);
     }catch (error){
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };
 
@@ -16,7 +16,7 @@ export const getAllAlunos = async (req, res) => {
         const turmas = await AlunoService.getAllAlunos(search);
         return res.status(200).json(turmas);
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };
 
@@ -26,7 +26,7 @@ export const getAlunoById = async (req, res) => {
         const turma = await AlunoService.getAlunoById(id);
         return res.status(200).json(turma);
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };
 
@@ -44,9 +44,9 @@ export const updateAluno = async (req, res) => {
 export const deleteAluno = async (req, res) => {
     try {
         const {id} = req.params;
-        await AlunoService.deleteAluno(id);
-        return res.status(200).json({message: 'Aluno apagado' });
+        const result = await AlunoService.deleteAluno(id);
+        return res.status(200).json(result);
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({error: error.message});
     }
 };

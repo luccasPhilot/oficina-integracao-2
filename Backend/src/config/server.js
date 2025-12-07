@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { getSecretOrEnv } from "../utils/Enviroments.js";
 import '../models/index.js';
-import { authMiddleware } from "../middleware/authMiddleware.js";
 
 import healthRoutes from "../routes/healthRoutes.js";
 import authRoutes from "../routes/Auth.routes.js";

@@ -1,11 +1,25 @@
-import EscolaService from "../src/services/EscolaService.js";
-import EscolaRepository from "../src/repositories/EscolaRepository.js";
-import TurmaRepository from "../src/repositories/TurmaRepository.js";
+import EscolaService from "../../src/services/EscolaService.js";
+import EscolaRepository from "../../src/repositories/EscolaRepository.js";
+import TurmaRepository from "../../src/repositories/TurmaRepository.js";
 
-jest.mock("../src/repositories/EscolaRepository.js");
-jest.mock("../src/repositories/TurmaRepository.js");
+jest.mock("../../src/repositories/EscolaRepository.js");
+jest.mock("../../src/repositories/TurmaRepository.js");
 
-describe("EscolaService unit tests", () => {
+jest.mock("pdfmake", () => {
+    return class PdfPrinter {
+        createPdfKitDocument() {
+            return {
+                on: (event, callback)=>{
+                    if (event === 'data') callback(Buffer.from('Conteudo Falso do PDF'));
+                    if (event === 'end') callback();
+                },
+                end: jest.fn()
+            };
+        }
+    };
+});
+
+describe("Unitário - EscolaService", () => {
     const fakeEscola = {id: "1", nome: "Escola do Robinho", cidade: "Cidade Grande"};
 
     const fakeTurmas = [
@@ -76,5 +90,19 @@ describe("EscolaService unit tests", () => {
     it("deleteEscola lança erro se escola não encontrada", async () => {
         EscolaRepository.findById.mockResolvedValue(null);
         await expect(EscolaService.deleteEscola("99")).rejects.toThrow("Escola não encontrada");
+    });
+
+    it("gerarCartaConvite retorna um Buffer se a escola for encontrada", async () => {
+        EscolaRepository.findById.mockResolvedValue(fakeEscola);
+        const result = await EscolaService.gerarCartaConvite("1");
+        expect(EscolaRepository.findById).toHaveBeenCalledWith("1");
+        expect(result).toBeInstanceOf(Buffer);
+    });
+
+    it("gerarCartaConvite lança erro se escola não encontrada", async () => {
+        EscolaRepository.findById.mockResolvedValue(null);
+        await expect(EscolaService.gerarCartaConvite("99"))
+            .rejects
+            .toThrow("Escola não encontrada");
     });
 });

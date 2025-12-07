@@ -1,9 +1,9 @@
-import TurmaService from "../src/services/TurmaService.js";
-import TurmaRepository from "../src/repositories/TurmaRepository.js";
+import TurmaService from "../../src/services/TurmaService.js";
+import TurmaRepository from "../../src/repositories/TurmaRepository.js";
 
-jest.mock("../src/repositories/TurmaRepository.js");
+jest.mock("../../src/repositories/TurmaRepository.js");
 
-describe("TurmaService unit tests", () => {
+describe("Unitário - TurmaService", () => {
     const fakeTurma = {id: "1", identificacao: "Turma A", escola_id: "1"};
 
     beforeEach(() => {
