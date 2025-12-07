@@ -96,6 +96,79 @@ const EscolaService = {
             pdfDoc.end();
         });
     },
+
+    gerarCartaConvenio: async (id) => {
+        const escola = await EscolaRepository.findById(id);
+        if(!escola){
+            throw new Error('Escola não encontrada');
+        }
+        const docDefinition = {
+            content: [
+                {text: 'TERMO DE CONVÊNIO', style: 'header', alignment: 'center'},
+                {text: '\n\n'},
+                { 
+                    text: [
+                        {text: 'Pelo presente instrumento, de um lado a ', bold: true },
+                        {text: 'UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ (UTFPR)', bold: true },
+                        {text: ', através do projeto ELLP, e de outro lado a escola '},
+                        {text: escola.nome.toUpperCase(), bold: true },
+                        {text: `, localizada em ${(escola.endereco + ", " + escola.cidade + ", " + escola.estado) || 'endereço não cadastrado'}, celebram o presente termo mediante as cláusulas a seguir:` }
+                    ],
+                    alignment: 'justify'
+                },
+                {text: '\n'},
+                {text: 'CLÁUSULA PRIMEIRA - DO OBJETO', style: 'clauseTitle'},
+                { 
+                    text: 'O presente convênio tem por objetivo a cooperação mútua para a realização de oficinas de Lógica e Programação para os alunos da instituição parceira.',
+                    alignment: 'justify', margin: [0, 5, 0, 10]
+                },
+                {text: 'CLÁUSULA SEGUNDA - DAS RESPONSABILIDADES', style: 'clauseTitle'},
+                { 
+                    text: 'Caberá à UTFPR fornecer os monitores e o material didático. Caberá à ESCOLA PARCEIRA organizar as turmas e garantir a frequência dos alunos.',
+                    alignment: 'justify', margin: [0, 5, 0, 10]
+                },
+                {text: '\n\n\n'},
+                {text: `Cornélio Procópio, ${new Date().toLocaleDateString('pt-BR')}`, alignment: 'right'},
+                {text: '\n\n\n\n'},
+                {
+                    columns: [
+                        {
+                            stack: [
+                                {text: '____________________________________'},
+                                {text: 'Coordenação do Projeto ELLP', fontSize: 10, bold: true },
+                                {text: 'UTFPR - Cornélio Procópio', fontSize: 9 }
+                            ],
+                            alignment: 'center'
+                        },
+                        {
+                            stack: [
+                                {text: '____________________________________'},
+                                {text: `Direção / Representante`, fontSize: 10, bold: true },
+                                {text: escola.nome, fontSize: 9 }
+                            ],
+                            alignment: 'center'
+                        }
+                    ]
+                }
+            ],
+            styles: {
+                header: { fontSize: 16, bold: true },
+                clauseTitle: { fontSize: 11, bold: true, marginTop: 10 }
+            },
+            defaultStyle: { font: 'Helvetica'}
+        };
+
+        const printer = new PdfPrinter(fonts);
+        const pdfDoc = printer.createPdfKitDocument(docDefinition);
+
+        return new Promise((resolve, reject) => {
+            const chunks = [];
+            pdfDoc.on('data', (chunk) => chunks.push(chunk));
+            pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
+            pdfDoc.on('error', (err) => reject(err));
+            pdfDoc.end();
+        });
+    },
 };
 
 export default EscolaService;

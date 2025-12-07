@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createEscola, deleteEscola, getAllEscolas, getAllTurmasByEscolaId, getEscolaById, updateEscola, createCartaConvite } from '../controllers/EscolaController.js';
+import { createEscola, deleteEscola, getAllEscolas, getAllTurmasByEscolaId, getEscolaById, updateEscola, createCartaConvite, createCartaConvenio } from '../controllers/EscolaController.js';
 
 const router = Router();
 
@@ -12,5 +12,6 @@ router.delete("/:id", deleteEscola);
 router.get("/:id/turmas", getAllTurmasByEscolaId); 
 
 router.get('/:id/carta-convite', createCartaConvite);
+router.get('/:id/carta-convenio', createCartaConvenio);
 
 export default router;
